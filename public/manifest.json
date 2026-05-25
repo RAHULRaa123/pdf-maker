@@ -1,40 +1,25 @@
 {
-  "background_color": "#ffffff",
-  "description": "A professional suite of intelligent document and image processing tools. Convert, merge, resize, and compress with ease.",
-  "dir": "ltr",
-  "display": "standalone",
   "name": "PDF Maker",
+  "short_name": "PDFMaker",
+  "description": "A professional suite of intelligent document and image processing tools.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
   "orientation": "any",
   "scope": "/",
-  "short_name": "PDFMaker",
-  "start_url": "/",
-  "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "https://pdf-maker-virid.vercel.app/favicon.ico",
-      "type": "image/x-icon",
-      "sizes": "16x16",
-      "isSquare": true,
-      "isPng": false,
-      "isWebp": false,
-      "isJpg": false,
-      "width": 16,
-      "is512x512": false,
-      "is256x256": false,
-      "is192x192": false
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "https://pdf-maker-virid.vercel.app/favicon.ico",
-      "type": "image/x-icon",
-      "isSquare": false,
-      "isPng": false,
-      "isWebp": false,
-      "isJpg": false,
-      "width": 0,
-      "is512x512": false,
-      "is256x256": false,
-      "is192x192": false
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ],
-  "id": "pdf-maker"
+  ]
 }
