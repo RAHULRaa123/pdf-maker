@@ -2,12 +2,13 @@
 "use client"
 
 import React, { useState } from 'react';
-import { FileImage, Download, Share2, Loader2, RefreshCw, Layers } from 'lucide-react';
+import { FileImage, Download, Share2, Loader2, RefreshCw, Layers, Eye } from 'lucide-react';
 import { ToolLayout } from '@/components/tool-layout';
 import { FileDropzone } from '@/components/file-dropzone';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { jsPDF } from 'jspdf';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function ImageToPdfPage() {
   const [files, setFiles] = useState<File[]>([]);
@@ -27,9 +28,10 @@ export default function ImageToPdfPage() {
       
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const imgData = await new Promise<string>((resolve) => {
+        const imgData = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = (e) => resolve(e.target?.result as string);
+          reader.onerror = reject;
           reader.readAsDataURL(file);
         });
 
@@ -45,6 +47,7 @@ export default function ImageToPdfPage() {
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
         const imgProps = doc.getImageProperties(imgData);
+        
         const ratio = Math.min(pageWidth / imgProps.width, pageHeight / imgProps.height);
         const width = imgProps.width * ratio;
         const height = imgProps.height * ratio;
@@ -73,6 +76,12 @@ export default function ImageToPdfPage() {
     link.href = pdfUrl;
     link.download = "converted-images.pdf";
     link.click();
+  };
+
+  const startOver = () => {
+    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+    setPdfUrl(null);
+    setFiles([]);
   };
 
   return (
@@ -117,27 +126,34 @@ export default function ImageToPdfPage() {
           </div>
         ) : (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="bg-card border-2 border-accent/20 rounded-3xl p-12 text-center shadow-sm">
-              <div className="bg-green-100 dark:bg-green-900/30 text-green-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                 <Download size={40} />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">Ready to Download</h3>
-              <p className="text-muted-foreground mb-8">Your PDF document is ready for storage or sharing.</p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto">
-                <Button size="lg" onClick={handleDownload} className="rounded-xl bg-primary h-12 text-lg">
-                  <Download className="mr-2 h-5 w-5" /> Download PDF
-                </Button>
-                <Button size="lg" variant="outline" className="rounded-xl h-12 text-lg border-2">
-                  <Share2 className="mr-2 h-5 w-5" /> Share Document
-                </Button>
-              </div>
+            <Card className="overflow-hidden border-none shadow-lg">
+              <CardContent className="p-0">
+                <div className="bg-secondary/20 p-4 border-b">
+                   <h3 className="font-bold flex items-center gap-2"><Eye size={18}/> Document Preview</h3>
+                </div>
+                <div className="relative aspect-[3/4] w-full bg-slate-100">
+                  <iframe 
+                    src={`${pdfUrl}#toolbar=0`} 
+                    className="w-full h-full border-none"
+                    title="PDF Preview"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Button size="lg" onClick={handleDownload} className="rounded-xl bg-primary h-12 text-lg">
+                <Download className="mr-2 h-5 w-5" /> Download PDF
+              </Button>
+              <Button size="lg" variant="outline" className="rounded-xl h-12 text-lg border-2">
+                <Share2 className="mr-2 h-5 w-5" /> Share Document
+              </Button>
             </div>
             
             <div className="text-center">
                <Button 
                 variant="ghost" 
-                onClick={() => {setPdfUrl(null); setFiles([]);}} 
+                onClick={startOver} 
                 className="text-muted-foreground"
               >
                 <RefreshCw className="mr-2 h-4 w-4" /> Start New Conversion

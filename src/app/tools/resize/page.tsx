@@ -1,8 +1,8 @@
 
 "use client"
 
-import React, { useState } from 'react';
-import { Maximize, Download, Share2, Loader2, RefreshCw, Move } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Maximize, Download, Share2, Loader2, RefreshCw, Move, Eye } from 'lucide-react';
 import { ToolLayout } from '@/components/tool-layout';
 import { FileDropzone } from '@/components/file-dropzone';
 import { Button } from '@/components/ui/button';
@@ -20,14 +20,15 @@ export default function ResizePage() {
   const [resizedUrl, setResizedUrl] = useState<string | null>(null);
 
   const handleFileSelect = (files: File[]) => {
-    setFile(files[0] || null);
-    if (files[0]) {
+    const selected = files[0] || null;
+    setFile(selected);
+    if (selected) {
       const img = new window.Image();
       img.onload = () => {
         setWidth(img.width.toString());
         setHeight(img.height.toString());
       };
-      img.src = URL.createObjectURL(files[0]);
+      img.src = URL.createObjectURL(selected);
     }
   };
 
@@ -36,9 +37,10 @@ export default function ResizePage() {
     setIsProcessing(true);
     
     try {
-      const imgData = await new Promise<string>((resolve) => {
+      const imgData = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = (e) => resolve(e.target?.result as string);
+        reader.onerror = reject;
         reader.readAsDataURL(file);
       });
 
@@ -47,8 +49,8 @@ export default function ResizePage() {
       await new Promise((resolve) => { img.onload = resolve; });
 
       const canvas = document.createElement('canvas');
-      canvas.width = parseInt(width);
-      canvas.height = parseInt(height);
+      canvas.width = parseInt(width) || img.width;
+      canvas.height = parseInt(height) || img.height;
       const ctx = canvas.getContext('2d');
       if (!ctx) throw new Error("Could not get canvas context");
       
@@ -57,7 +59,7 @@ export default function ResizePage() {
       const resizedDataUrl = canvas.toDataURL('image/png');
       setResizedUrl(resizedDataUrl);
       
-      toast({ title: "Resized", description: `Image scaled to ${width}x${height} successfully.` });
+      toast({ title: "Resized", description: `Image scaled to ${canvas.width}x${canvas.height} successfully.` });
     } catch (error) {
       console.error(error);
       toast({ variant: "destructive", title: "Resize Failed", description: "Could not process image scaling." });
@@ -72,6 +74,12 @@ export default function ResizePage() {
     link.href = resizedUrl;
     link.download = `resized-${file?.name || 'image.png'}`;
     link.click();
+  };
+
+  const startOver = () => {
+    if (resizedUrl) URL.revokeObjectURL(resizedUrl);
+    setResizedUrl(null);
+    setFile(null);
   };
 
   return (
@@ -95,11 +103,23 @@ export default function ResizePage() {
                    <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="width">Width (px)</Label>
-                        <Input id="width" value={width} onChange={(e) => setWidth(e.target.value)} type="number" />
+                        <Input 
+                          id="width" 
+                          value={width} 
+                          onChange={(e) => setWidth(e.target.value)} 
+                          type="number" 
+                          placeholder="Width"
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="height">Height (px)</Label>
-                        <Input id="height" value={height} onChange={(e) => setHeight(e.target.value)} type="number" />
+                        <Input 
+                          id="height" 
+                          value={height} 
+                          onChange={(e) => setHeight(e.target.value)} 
+                          type="number" 
+                          placeholder="Height"
+                        />
                       </div>
                    </div>
                    <Button 
@@ -125,27 +145,37 @@ export default function ResizePage() {
           </div>
         ) : (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-             <div className="bg-card border-2 border-accent/20 rounded-3xl p-8 md:p-12 text-center shadow-sm">
-              <div className="relative aspect-video w-full bg-secondary/20 rounded-xl overflow-hidden mb-6">
-                <Image src={resizedUrl} alt="Resized" fill className="object-contain" />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">Resizing Finished</h3>
-              <p className="text-muted-foreground mb-8">New dimensions: {width}px x {height}px</p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto">
-                <Button size="lg" onClick={handleDownload} className="rounded-xl bg-primary h-12 text-lg">
-                  <Download className="mr-2 h-5 w-5" /> Download Result
-                </Button>
-                <Button size="lg" variant="outline" className="rounded-xl h-12 text-lg border-2">
-                  <Share2 className="mr-2 h-5 w-5" /> Share Image
-                </Button>
-              </div>
+             <Card className="overflow-hidden border-none shadow-lg">
+              <CardContent className="p-0">
+                <div className="bg-secondary/20 p-4 border-b">
+                   <h3 className="font-bold flex items-center gap-2"><Eye size={18}/> Preview ({width}x{height})</h3>
+                </div>
+                <div className="relative aspect-video w-full bg-slate-100 p-4">
+                  <div className="relative w-full h-full">
+                    <Image 
+                      src={resizedUrl} 
+                      alt="Resized" 
+                      fill 
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Button size="lg" onClick={handleDownload} className="rounded-xl bg-primary h-12 text-lg">
+                <Download className="mr-2 h-5 w-5" /> Download Result
+              </Button>
+              <Button size="lg" variant="outline" className="rounded-xl h-12 text-lg border-2">
+                <Share2 className="mr-2 h-5 w-5" /> Share Image
+              </Button>
             </div>
             
             <div className="text-center">
                <Button 
                 variant="ghost" 
-                onClick={() => {setResizedUrl(null); setFile(null);}} 
+                onClick={startOver} 
                 className="text-muted-foreground"
               >
                 <RefreshCw className="mr-2 h-4 w-4" /> Resize Another
