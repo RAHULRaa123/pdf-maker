@@ -75,7 +75,7 @@ export default function CompressPage() {
         await navigator.share({
           files: [shareFile],
           title: 'Compressed Image',
-          text: 'Shared via DocuPix',
+          text: 'Shared via PDF Tools',
         });
       } else {
         toast({ title: "Sharing not supported", description: "Direct sharing is not available in this browser." });

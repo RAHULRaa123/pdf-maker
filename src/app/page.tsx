@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import { 
   FileImage, 
@@ -67,7 +66,7 @@ export default function Home() {
           <ThemeToggle />
         </div>
         <h1 className="text-4xl md:text-5xl font-headline font-bold text-primary tracking-tight mb-4">
-          DocuPix
+          PDF
         </h1>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
           The all-in-one productivity suite for your document and image processing needs.
@@ -111,7 +110,7 @@ export default function Home() {
             </div>
             <span className="text-[10px] font-bold">Tools</span>
           </Link>
-          <div className="text-muted-foreground text-[10px] font-medium">DocuPix v1.1</div>
+          <div className="text-muted-foreground text-[10px] font-medium">PDF v1.1</div>
         </div>
       </footer>
     </div>

@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'DocuPix - PDF & Image Tools',
-  description: 'Intelligent document and image processing suite',
+  title: 'PDF - Intelligent Document Tools',
+  description: 'A suite of intelligent document and image processing tools.',
 };
 
 export default function RootLayout({
