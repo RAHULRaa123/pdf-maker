@@ -10,7 +10,9 @@ import {
   ShieldCheck,
   Globe,
   Clock,
-  FileText
+  FileText,
+  Type,
+  Lock
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -36,6 +38,33 @@ const tools = [
     href: '/tools/merge-pdf'
   },
   {
+    id: 'decompose',
+    title: 'Split PDF',
+    description: 'Extract every page of a PDF as separate high-quality files.',
+    icon: Scissors,
+    color: 'text-rose-500',
+    bgColor: 'bg-rose-500/10',
+    href: '/tools/decompose'
+  },
+  {
+    id: 'watermark',
+    title: 'Watermark PDF',
+    description: 'Add custom text watermarks to protect your intellectual property.',
+    icon: Type,
+    color: 'text-orange-500',
+    bgColor: 'bg-orange-500/10',
+    href: '/tools/watermark'
+  },
+  {
+    id: 'protect',
+    title: 'Protect PDF',
+    description: 'Secure your documents with metadata protection and flattening.',
+    icon: Lock,
+    color: 'text-cyan-500',
+    bgColor: 'bg-cyan-500/10',
+    href: '/tools/protect'
+  },
+  {
     id: 'compress',
     title: 'Image Compress',
     description: 'Reduce file size by up to 90% without losing visual clarity.',
@@ -52,15 +81,6 @@ const tools = [
     color: 'text-emerald-500',
     bgColor: 'bg-emerald-500/10',
     href: '/tools/resize'
-  },
-  {
-    id: 'decompose',
-    title: 'PDF Splitter',
-    description: 'Extract every page of a PDF as separate high-quality files.',
-    icon: Scissors,
-    color: 'text-rose-500',
-    bgColor: 'bg-rose-500/10',
-    href: '/tools/decompose'
   }
 ];
 
@@ -142,6 +162,10 @@ export default function Home() {
         <Link href="/tools/merge-pdf" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
           <Combine size={24} />
           <span className="text-[10px] font-bold">Merge</span>
+        </Link>
+        <Link href="/tools/watermark" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+          <Type size={24} />
+          <span className="text-[10px] font-bold">Mark</span>
         </Link>
         <Link href="/tools/compress" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
           <Zap size={24} />
