@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from 'next/link';
@@ -25,10 +26,10 @@ export function ToolLayout({ title, description, icon: Icon, children }: ToolLay
             </Button>
             <div className="flex items-center gap-3">
               <div className="bg-primary/10 p-2 rounded-lg text-primary shadow-inner">
-                <Icon size={20} />
+                <FileText size={20} />
               </div>
               <h1 className="font-bold text-lg text-foreground tracking-tight hidden sm:block">
-                {title}
+                PDF Maker
               </h1>
             </div>
           </div>
@@ -44,7 +45,7 @@ export function ToolLayout({ title, description, icon: Icon, children }: ToolLay
       <main className="container mx-auto px-4 py-12 max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-700">
         <div className="mb-10 text-center md:text-left space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-2">
-            <Icon size={12} /> Productivity Tool
+            <Icon size={12} /> PDF Maker Tool
           </div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">{title}</h2>
           <p className="text-muted-foreground text-lg">{description}</p>
@@ -66,7 +67,7 @@ export function ToolLayout({ title, description, icon: Icon, children }: ToolLay
         </Link>
         <Link href="/tools/compress" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
           <Zap size={24} />
-          <span className="text-[10px] font-bold">Compress</span>
+          <span className="text-[10px] font-bold">Shrink</span>
         </Link>
         <Link href="/tools/resize" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
           <Layers size={24} />

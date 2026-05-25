@@ -1,10 +1,11 @@
+
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'PDF - Intelligent Document Tools',
-  description: 'A suite of intelligent document and image processing tools.',
+  title: 'PDF Maker - Intelligent Document Tools',
+  description: 'A professional suite of intelligent document and image processing tools. Convert, merge, resize, and compress with ease.',
 };
 
 export default function RootLayout({
@@ -19,7 +20,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased bg-background">
+      <body className="font-body antialiased bg-background text-foreground">
         {children}
         <Toaster />
       </body>

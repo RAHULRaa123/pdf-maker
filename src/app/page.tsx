@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { 
   FileImage, 
@@ -8,7 +9,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Globe,
-  Clock
+  Clock,
+  FileText
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -68,9 +70,9 @@ export default function Home() {
       <header className="px-6 pt-12 pb-8 flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
           <div className="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20">
-            <Zap className="text-primary-foreground" size={24} />
+            <FileText className="text-primary-foreground" size={24} />
           </div>
-          <span className="text-2xl font-bold tracking-tight text-primary">PDF</span>
+          <span className="text-2xl font-bold tracking-tight text-primary">PDF Maker</span>
         </div>
         <ThemeToggle />
       </header>
@@ -81,7 +83,7 @@ export default function Home() {
             Document Productivity, <span className="text-primary">Redefined.</span>
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto font-medium">
-            Fast, secure, and entirely in your browser. No uploads to servers, no privacy risks.
+            Professional PDF tools, fast and secure. No cloud uploads, all processing happens locally in your browser.
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-4">
              <div className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium">
@@ -130,12 +132,12 @@ export default function Home() {
       {/* Mobile Bottom Nav */}
       <nav className="fixed bottom-0 left-0 right-0 md:hidden glass border-t border-border/50 px-6 py-3 flex justify-around items-center z-50">
         <Link href="/" className="flex flex-col items-center gap-1 text-primary">
-          <Zap size={24} />
+          <FileText size={24} />
           <span className="text-[10px] font-bold">Home</span>
         </Link>
         <Link href="/tools/image-to-pdf" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
           <FileImage size={24} />
-          <span className="text-[10px] font-bold">Convert</span>
+          <span className="text-[10px] font-bold">PDF</span>
         </Link>
         <Link href="/tools/merge-pdf" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
           <Combine size={24} />
@@ -143,7 +145,7 @@ export default function Home() {
         </Link>
         <Link href="/tools/compress" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
           <Zap size={24} />
-          <span className="text-[10px] font-bold">Compress</span>
+          <span className="text-[10px] font-bold">Shrink</span>
         </Link>
       </nav>
     </div>
