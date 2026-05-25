@@ -7,6 +7,9 @@ import { Footer } from '@/components/footer';
 export const metadata: Metadata = {
   title: 'PDF Maker - Intelligent Document Tools',
   description: 'A professional suite of intelligent document and image processing tools. Convert, merge, resize, and compress with ease.',
+  verification: {
+    google: '9oC4yJJbnNWpTRXPYAC9nuCZ1jt8d7D4QJO6FoRIKZk',
+  },
 };
 
 export default function RootLayout({
