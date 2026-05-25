@@ -5,95 +5,120 @@ import {
   Zap, 
   Maximize, 
   Scissors, 
-  ArrowRight 
+  ArrowRight,
+  ShieldCheck,
+  Globe,
+  Clock
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { Button } from '@/components/ui/button';
 
 const tools = [
   {
     id: 'image-to-pdf',
-    title: 'Image-to-PDF',
-    description: 'Bundle multiple images into a high-quality PDF document.',
+    title: 'Image to PDF',
+    description: 'Convert multiple photos into a single professional PDF document.',
     icon: FileImage,
     color: 'text-blue-500',
-    bgColor: 'bg-blue-50 dark:bg-blue-900/30',
+    bgColor: 'bg-blue-500/10',
     href: '/tools/image-to-pdf'
   },
   {
     id: 'merge-pdf',
-    title: 'Smart Merger',
-    description: 'Combine multiple PDF files into one organized document.',
+    title: 'PDF Merger',
+    description: 'Combine different PDF files into one neatly organized document.',
     icon: Combine,
-    color: 'text-purple-500',
-    bgColor: 'bg-purple-50 dark:bg-purple-900/30',
+    color: 'text-indigo-500',
+    bgColor: 'bg-indigo-500/10',
     href: '/tools/merge-pdf'
   },
   {
     id: 'compress',
-    title: 'Smart Compression',
-    description: 'AI-powered reduction preserving visual fidelity.',
+    title: 'Image Compress',
+    description: 'Reduce file size by up to 90% without losing visual clarity.',
     icon: Zap,
-    color: 'text-yellow-500',
-    bgColor: 'bg-yellow-50 dark:bg-yellow-900/30',
+    color: 'text-amber-500',
+    bgColor: 'bg-amber-500/10',
     href: '/tools/compress'
   },
   {
     id: 'resize',
-    title: 'Precision Resizer',
-    description: 'Scale and crop images to specific dimensions.',
+    title: 'Smart Resizer',
+    description: 'Scale images to perfect dimensions for any platform.',
     icon: Maximize,
-    color: 'text-green-500',
-    bgColor: 'bg-green-50 dark:bg-green-900/30',
+    color: 'text-emerald-500',
+    bgColor: 'bg-emerald-500/10',
     href: '/tools/resize'
   },
   {
     id: 'decompose',
-    title: 'PDF Decomposition',
-    description: 'Convert PDF pages back into high-res images.',
+    title: 'PDF Splitter',
+    description: 'Extract every page of a PDF as separate high-quality files.',
     icon: Scissors,
-    color: 'text-red-500',
-    bgColor: 'bg-red-50 dark:bg-red-900/30',
+    color: 'text-rose-500',
+    bgColor: 'bg-rose-500/10',
     href: '/tools/decompose'
   }
 ];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background transition-colors duration-300">
-      <header className="px-6 py-12 text-center relative">
-        <div className="absolute top-6 right-6">
-          <ThemeToggle />
+    <div className="min-h-screen bg-background hero-gradient transition-colors duration-500 pb-24 md:pb-0">
+      <header className="px-6 pt-12 pb-8 flex justify-between items-center max-w-7xl mx-auto">
+        <div className="flex items-center gap-2">
+          <div className="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20">
+            <Zap className="text-primary-foreground" size={24} />
+          </div>
+          <span className="text-2xl font-bold tracking-tight text-primary">PDF</span>
         </div>
-        <h1 className="text-4xl md:text-5xl font-headline font-bold text-primary tracking-tight mb-4">
-          PDF
-        </h1>
-        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-          The all-in-one productivity suite for your document and image processing needs.
-        </p>
+        <ThemeToggle />
       </header>
 
-      <main className="container mx-auto px-6 pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <main className="container mx-auto px-6 max-w-7xl">
+        <section className="text-center py-12 md:py-20 space-y-6">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-foreground max-w-4xl mx-auto leading-[1.1]">
+            Document Productivity, <span className="text-primary">Redefined.</span>
+          </h1>
+          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto font-medium">
+            Fast, secure, and entirely in your browser. No uploads to servers, no privacy risks.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 pt-4">
+             <div className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium">
+               <ShieldCheck size={16} className="text-primary" /> Privacy Focused
+             </div>
+             <div className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium">
+               <Globe size={16} className="text-primary" /> 100% Client-Side
+             </div>
+             <div className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium">
+               <Clock size={16} className="text-primary" /> Instant Processing
+             </div>
+          </div>
+        </section>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20">
           {tools.map((tool) => (
-            <Link key={tool.id} href={tool.href} className="group transition-transform hover:-translate-y-1 duration-300">
-              <Card className="h-full border-none shadow-sm hover:shadow-md transition-shadow tool-card-gradient overflow-hidden bg-card">
-                <CardHeader className="flex flex-row items-center space-x-4 pb-2">
-                  <div className={`p-3 rounded-xl ${tool.bgColor} ${tool.color}`}>
+            <Link key={tool.id} href={tool.href} className="group outline-none">
+              <Card className="h-full border border-border/50 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300 tool-card-gradient overflow-hidden relative">
+                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                  <tool.icon size={120} />
+                </div>
+                <CardHeader className="flex flex-row items-center space-x-4 pb-4">
+                  <div className={`p-4 rounded-2xl ${tool.bgColor} ${tool.color} transition-transform duration-300 group-hover:scale-110 shadow-inner`}>
                     <tool.icon size={28} />
                   </div>
                   <div className="flex-1">
-                    <CardTitle className="text-xl font-headline group-hover:text-accent transition-colors">
+                    <CardTitle className="text-xl font-bold">
                       {tool.title}
                     </CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-base text-muted-foreground mb-4">
+                  <CardDescription className="text-base text-muted-foreground mb-6 leading-relaxed">
                     {tool.description}
                   </CardDescription>
-                  <div className="flex items-center text-sm font-semibold text-accent group-hover:translate-x-1 transition-transform">
-                    Get Started <ArrowRight className="ml-2 w-4 h-4" />
+                  <div className="flex items-center text-sm font-bold text-primary group-hover:translate-x-2 transition-transform duration-300">
+                    Open Tool <ArrowRight className="ml-2 w-4 h-4" />
                   </div>
                 </CardContent>
               </Card>
@@ -102,17 +127,25 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-md border-t border-border p-4 text-center md:hidden">
-        <div className="flex justify-around items-center">
-          <Link href="/" className="flex flex-col items-center gap-1 text-primary">
-            <div className="p-1 rounded-lg bg-secondary text-accent">
-               <FileImage size={20} />
-            </div>
-            <span className="text-[10px] font-bold">Tools</span>
-          </Link>
-          <div className="text-muted-foreground text-[10px] font-medium">PDF v1.1</div>
-        </div>
-      </footer>
+      {/* Mobile Bottom Nav */}
+      <nav className="fixed bottom-0 left-0 right-0 md:hidden glass border-t border-border/50 px-6 py-3 flex justify-around items-center z-50">
+        <Link href="/" className="flex flex-col items-center gap-1 text-primary">
+          <Zap size={24} />
+          <span className="text-[10px] font-bold">Home</span>
+        </Link>
+        <Link href="/tools/image-to-pdf" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+          <FileImage size={24} />
+          <span className="text-[10px] font-bold">Convert</span>
+        </Link>
+        <Link href="/tools/merge-pdf" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+          <Combine size={24} />
+          <span className="text-[10px] font-bold">Merge</span>
+        </Link>
+        <Link href="/tools/compress" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+          <Zap size={24} />
+          <span className="text-[10px] font-bold">Compress</span>
+        </Link>
+      </nav>
     </div>
   );
 }
