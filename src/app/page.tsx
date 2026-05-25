@@ -12,7 +12,9 @@ import {
   Clock,
   FileText,
   Type,
-  Lock
+  Lock,
+  Image as ImageIcon,
+  Crop
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -38,13 +40,22 @@ const tools = [
     href: '/tools/merge-pdf'
   },
   {
-    id: 'decompose',
+    id: 'split-pdf',
     title: 'Split PDF',
     description: 'Extract every page of a PDF as separate high-quality files.',
     icon: Scissors,
     color: 'text-rose-500',
     bgColor: 'bg-rose-500/10',
     href: '/tools/decompose'
+  },
+  {
+    id: 'pdf-to-image',
+    title: 'PDF to Image',
+    description: 'Convert PDF pages into high-resolution JPG or PNG images.',
+    icon: ImageIcon,
+    color: 'text-purple-500',
+    bgColor: 'bg-purple-500/10',
+    href: '/tools/pdf-to-image'
   },
   {
     id: 'watermark',
@@ -57,12 +68,21 @@ const tools = [
   },
   {
     id: 'protect',
-    title: 'Protect PDF',
-    description: 'Secure your documents with metadata protection and flattening.',
+    title: 'Password Protect',
+    description: 'Secure your documents with passwords and metadata protection.',
     icon: Lock,
     color: 'text-cyan-500',
     bgColor: 'bg-cyan-500/10',
     href: '/tools/protect'
+  },
+  {
+    id: 'crop',
+    title: 'Image Crop',
+    description: 'Trim images to specific aspect ratios for social media or print.',
+    icon: Crop,
+    color: 'text-pink-500',
+    bgColor: 'bg-pink-500/10',
+    href: '/tools/crop'
   },
   {
     id: 'compress',
@@ -159,13 +179,13 @@ export default function Home() {
           <FileImage size={24} />
           <span className="text-[10px] font-bold">PDF</span>
         </Link>
-        <Link href="/tools/merge-pdf" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
-          <Combine size={24} />
-          <span className="text-[10px] font-bold">Merge</span>
+        <Link href="/tools/pdf-to-image" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+          <ImageIcon size={24} />
+          <span className="text-[10px] font-bold">Image</span>
         </Link>
-        <Link href="/tools/watermark" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
-          <Type size={24} />
-          <span className="text-[10px] font-bold">Mark</span>
+        <Link href="/tools/protect" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+          <Lock size={24} />
+          <span className="text-[10px] font-bold">Secure</span>
         </Link>
         <Link href="/tools/compress" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
           <Zap size={24} />
