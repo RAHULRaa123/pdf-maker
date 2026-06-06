@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import { 
   FileImage, 
@@ -18,7 +17,6 @@ import {
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Button } from '@/components/ui/button';
 
 const tools = [
   {
@@ -126,15 +124,15 @@ export default function Home() {
             Professional PDF tools, fast and secure. No cloud uploads, all processing happens locally in your browser.
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-4">
-             <div className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium">
-               <ShieldCheck size={16} className="text-primary" /> Privacy Focused
-             </div>
-             <div className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium">
-               <Globe size={16} className="text-primary" /> 100% Client-Side
-             </div>
-             <div className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium">
-               <Clock size={16} className="text-primary" /> Instant Processing
-             </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium">
+              <ShieldCheck size={16} className="text-primary" /> Privacy Focused
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium">
+              <Globe size={16} className="text-primary" /> 100% Client-Side
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium">
+              <Clock size={16} className="text-primary" /> Instant Processing
+            </div>
           </div>
         </section>
 
@@ -167,9 +165,67 @@ export default function Home() {
             </Link>
           ))}
         </div>
+
+        <section className="pb-20 max-w-4xl mx-auto space-y-6 text-muted-foreground leading-relaxed">
+          <h2 className="text-3xl font-bold text-foreground">Free Online PDF Maker and Document Tools</h2>
+
+          <p>
+            PDF Maker is a free online document tool website created to help students, office users, freelancers, and professionals manage PDF and image files easily. Users can convert images to PDF, merge PDF files, split PDF pages, convert PDF pages into images, compress images, resize images, crop images, add watermarks, and protect important documents.
+          </p>
+
+          <p>
+            The main goal of PDF Maker is to provide simple, fast, and useful document tools without requiring complicated software installation. Many users only need quick document processing for school assignments, job forms, certificates, ID proofs, office files, and personal records. PDF Maker makes these tasks easier through a clean and mobile-friendly interface.
+          </p>
+
+          <h2 className="text-2xl font-bold text-foreground">Why Use PDF Maker?</h2>
+
+          <p>
+            PDF Maker focuses on speed, privacy, and ease of use. Most tools work directly inside the browser, which means users can complete common file tasks quickly. The website is designed to work on desktop, tablet, and mobile devices, so users can manage documents from almost anywhere.
+          </p>
+
+          <p>
+            Image to PDF helps users combine photos, scanned notes, certificates, documents, and receipts into a single PDF file. PDF merger is useful when multiple PDF files need to be joined into one organized document. PDF to image helps users extract pages as image files for sharing, editing, or record keeping.
+          </p>
+
+          <p>
+            The watermark tool helps users add text watermarks to documents. The password protection tool helps users secure important files. Image compression and resizing tools help reduce file size and prepare images for online forms, websites, and sharing.
+          </p>
+
+          <h2 className="text-2xl font-bold text-foreground">Who Can Use These Tools?</h2>
+
+          <p>
+            PDF Maker can be used by students, teachers, job applicants, small business owners, office workers, and anyone who regularly works with PDF or image files. The tools are useful for preparing assignments, uploading documents to online portals, organizing certificates, creating reports, and sharing files in a clean format.
+          </p>
+
+          <h2 className="text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
+
+          <h3 className="text-xl font-semibold text-foreground">Is PDF Maker free to use?</h3>
+          <p>
+            Yes, PDF Maker provides free online tools for common PDF and image-related tasks.
+          </p>
+
+          <h3 className="text-xl font-semibold text-foreground">Do I need to install software?</h3>
+          <p>
+            No, PDF Maker works online in the browser, so users do not need to install heavy software.
+          </p>
+
+          <h3 className="text-xl font-semibold text-foreground">Can I use PDF Maker on mobile?</h3>
+          <p>
+            Yes, the website is designed to work on mobile, tablet, and desktop devices.
+          </p>
+
+          <h3 className="text-xl font-semibold text-foreground">Which tools are available?</h3>
+          <p>
+            PDF Maker includes Image to PDF, PDF Merger, Split PDF, PDF to Image, Watermark PDF, Password Protect, Image Crop, Image Compress, and Smart Resizer tools.
+          </p>
+
+          <h3 className="text-xl font-semibold text-foreground">Is my file uploaded to a server?</h3>
+          <p>
+            PDF Maker is designed to process many tasks directly in the browser. This helps users complete document tasks quickly while keeping the experience simple and privacy focused.
+          </p>
+        </section>
       </main>
 
-      {/* Mobile Bottom Nav */}
       <nav className="fixed bottom-0 left-0 right-0 md:hidden glass border-t border-border/50 px-6 py-3 flex justify-around items-center z-50">
         <Link href="/" className="flex flex-col items-center gap-1 text-primary">
           <FileText size={24} />
