@@ -1,4 +1,3 @@
-
 "use client"
 
 import { FileText, Mail, MessageSquare, Send, MapPin, Globe } from 'lucide-react';
@@ -14,8 +13,8 @@ export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Message Sent",
-      description: "Thanks for reaching out! We'll get back to you soon.",
+      title: "Message Received",
+      description: "Thanks for reaching out. We will review your message as soon as possible.",
     });
   };
 
@@ -36,10 +35,11 @@ export default function ContactPage() {
           <div className="space-y-12">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-6xl font-bold tracking-tighter">
-                Let's <span className="text-primary">Connect.</span>
+                Contact <span className="text-primary">PDF Maker</span>
               </h1>
               <p className="text-muted-foreground text-lg leading-relaxed max-w-lg">
-                Have a feature request, bug report, or just want to say hi? We'd love to hear from you.
+                Have a question, suggestion, feedback, or issue related to PDF Maker?
+                You can contact us using the details below or by using the contact form.
               </p>
             </div>
 
@@ -49,28 +49,39 @@ export default function ContactPage() {
                   <Mail size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold">Email Us</h4>
-                  <p className="text-muted-foreground">hello@pdfmaker.app</p>
+                  <h4 className="font-bold">Email</h4>
+                  <p className="text-muted-foreground">raa426243@gmail.com</p>
                 </div>
               </div>
+
               <div className="flex gap-6 items-center">
                 <div className="bg-primary/10 p-4 rounded-2xl text-primary">
                   <MapPin size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold">Headquarters</h4>
-                  <p className="text-muted-foreground">Privacy Street, Tech City, 94103</p>
+                  <h4 className="font-bold">Platform</h4>
+                  <p className="text-muted-foreground">Online Document Processing Platform</p>
                 </div>
               </div>
+
               <div className="flex gap-6 items-center">
                 <div className="bg-primary/10 p-4 rounded-2xl text-primary">
                   <Globe size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold">Global Presence</h4>
-                  <p className="text-muted-foreground">Processing files worldwide, locally.</p>
+                  <h4 className="font-bold">Availability</h4>
+                  <p className="text-muted-foreground">Available worldwide through modern web browsers.</p>
                 </div>
               </div>
+            </div>
+
+            <div className="bg-card p-6 rounded-3xl border border-border/50 shadow-sm space-y-3">
+              <h2 className="text-2xl font-bold">Support Information</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                PDF Maker is built to help users manage PDF and image files online.
+                If you notice a tool issue, broken link, file processing problem, or content error,
+                please share the details so we can improve the platform.
+              </p>
             </div>
           </div>
 
@@ -78,20 +89,23 @@ export default function ContactPage() {
             <div className="absolute -top-6 -right-6 bg-accent p-6 rounded-3xl text-accent-foreground shadow-xl animate-float">
               <MessageSquare size={32} />
             </div>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="name">Your Name</Label>
-                <Input id="name" placeholder="John Doe" required className="h-12 rounded-xl bg-secondary/30" />
+                <Input id="name" placeholder="Enter your name" required className="h-12 rounded-xl bg-secondary/30" />
               </div>
+
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="john@example.com" required className="h-12 rounded-xl bg-secondary/30" />
+                <Input id="email" type="email" placeholder="Enter your email address" required className="h-12 rounded-xl bg-secondary/30" />
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="message">How can we help?</Label>
-                <Textarea id="message" placeholder="Tell us what's on your mind..." required className="min-h-[150px] rounded-2xl bg-secondary/30" />
+                <Label htmlFor="message">Message</Label>
+                <Textarea id="message" placeholder="Write your message here..." required className="min-h-[150px] rounded-2xl bg-secondary/30" />
               </div>
+
               <Button type="submit" className="w-full h-14 rounded-xl text-lg font-bold">
                 <Send size={20} className="mr-2" /> Send Message
               </Button>
