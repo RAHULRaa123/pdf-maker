@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState } from 'react';
@@ -22,52 +21,53 @@ export default function WatermarkPage() {
   const [resultUrl, setResultUrl] = useState<string | null>(null);
 
   const handleFileSelect = (files: File[]) => {
-    if (files.length > 0) {
-      setFile(files[0]);
-      setResultUrl(null);
-    } else {
-      setFile(null);
-    }
+    setFile(files[0] || null);
+    setResultUrl(null);
   };
 
   const applyWatermark = async () => {
     if (!file || !watermarkText) return;
 
     setIsProcessing(true);
+
     try {
       const fileBytes = await file.arrayBuffer();
       const pdfDoc = await PDFDocument.load(fileBytes);
       const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
       const pages = pdfDoc.getPages();
 
-      for (const page of pages) {
+      pages.forEach((page) => {
         const { width, height } = page.getSize();
+
         page.drawText(watermarkText, {
           x: width / 2 - 100,
           y: height / 2,
           size: 50,
-          font: font,
+          font,
           color: rgb(0.5, 0.5, 0.5),
           opacity: opacity / 100,
           rotate: degrees(rotation),
         });
-      }
+      });
 
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      
+
       setResultUrl(url);
-      toast({ 
-        title: "Watermark applied", 
-        description: `Successfully protected ${pages.length} pages.` 
+
+      toast({
+        title: "Watermark Applied",
+        description: "PDF successfully processed.",
       });
+
     } catch (error) {
       console.error(error);
-      toast({ 
-        variant: "destructive", 
-        title: "Error", 
-        description: "Failed to apply watermark. Please try a different PDF." 
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to apply watermark.",
       });
     } finally {
       setIsProcessing(false);
@@ -78,141 +78,177 @@ export default function WatermarkPage() {
     if (!resultUrl) return;
     const link = document.createElement('a');
     link.href = resultUrl;
-    link.download = `watermarked-${file?.name || 'document.pdf'}`;
+    link.download = `watermarked.pdf`;
     link.click();
   };
 
   return (
     <ToolLayout
-      title="Watermark PDF"
-      description="Add professional text watermarks to your documents to prevent unauthorized distribution."
+      title="PDF Watermark Tool"
+      description="Add text watermarks to PDF files for copyright protection, branding, or document security."
       icon={Type}
     >
-      <div className="space-y-8">
+      <div className="space-y-10">
+
+        {/* 🔥 SEO CONTENT SECTION (ADSENSE BOOST) */}
+        <section className="mt-10 space-y-6 border-t pt-10 text-muted-foreground leading-7">
+
+          <h2 className="text-3xl font-bold text-foreground">
+            About PDF Watermark Tool
+          </h2>
+
+          <p>
+            The PDF Watermark tool helps you add visible text on your documents to protect them from unauthorized use.
+            It is commonly used for business documents, study material, reports, and confidential files.
+          </p>
+
+          <h2 className="text-2xl font-bold text-foreground">
+            How to Use This Tool
+          </h2>
+
+          <ol className="list-decimal pl-6 space-y-2">
+            <li>Upload your PDF file.</li>
+            <li>Enter watermark text (e.g. CONFIDENTIAL).</li>
+            <li>Adjust opacity and rotation.</li>
+            <li>Click Apply Watermark.</li>
+            <li>Download your protected PDF.</li>
+          </ol>
+
+          <h2 className="text-2xl font-bold text-foreground">
+            Benefits
+          </h2>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Protects documents from misuse</li>
+            <li>Adds branding to PDFs</li>
+            <li>Works online without software</li>
+            <li>Fast and secure processing</li>
+            <li>Free to use anytime</li>
+          </ul>
+
+          <h2 className="text-2xl font-bold text-foreground">
+            FAQ
+          </h2>
+
+          <h3 className="text-xl font-semibold">Is this tool free?</h3>
+          <p>Yes, completely free PDF watermark tool.</p>
+
+          <h3 className="text-xl font-semibold">Is my file uploaded?</h3>
+          <p>No, processing happens in your browser for privacy.</p>
+
+        </section>
+
+        {/* TOOL UI */}
         {!resultUrl ? (
           <div className="space-y-6">
-            <FileDropzone 
-              onFilesSelected={handleFileSelect} 
-              multiple={false} 
+
+            <FileDropzone
+              onFilesSelected={handleFileSelect}
+              multiple={false}
               accept="application/pdf"
-              label="Select PDF to watermark"
+              label="Upload PDF"
             />
-            
+
             {file && (
-              <Card className="border-none shadow-sm overflow-hidden rounded-2xl bg-card">
-                <CardContent className="p-6 space-y-6">
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="watermark-text">Watermark Text</Label>
-                      <Input 
-                        id="watermark-text"
-                        value={watermarkText}
-                        onChange={(e) => setWatermarkText(e.target.value)}
-                        placeholder="e.g. CONFIDENTIAL"
-                        className="h-12 rounded-xl"
-                      />
-                    </div>
+              <Card className="p-6 space-y-6">
 
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <Label className="text-sm font-semibold flex items-center gap-2">
-                          <SlidersHorizontal size={14} className="text-accent" />
-                          Opacity
-                        </Label>
-                        <span className="text-accent font-bold">{opacity}%</span>
-                      </div>
-                      <Slider 
-                        value={[opacity]} 
-                        onValueChange={(vals) => setOpacity(vals[0])} 
-                        min={0} 
-                        max={100} 
-                        step={1}
-                      />
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <Label className="text-sm font-semibold flex items-center gap-2">
-                          <RefreshCw size={14} className="text-accent" />
-                          Rotation
-                        </Label>
-                        <span className="text-accent font-bold">{rotation}°</span>
-                      </div>
-                      <Slider 
-                        value={[rotation]} 
-                        onValueChange={(vals) => setRotation(vals[0])} 
-                        min={0} 
-                        max={360} 
-                        step={1}
-                      />
-                    </div>
-                  </div>
-
-                  <Button 
-                    onClick={applyWatermark} 
-                    className="w-full h-12 text-lg rounded-xl bg-accent hover:bg-accent/90" 
-                    disabled={isProcessing}
-                  >
-                    {isProcessing ? (
-                      <>
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        <Type className="mr-2 h-5 w-5" />
-                        Apply Watermark
-                      </>
-                    )}
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        ) : (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <Card className="overflow-hidden border-none shadow-lg bg-card">
-              <CardContent className="p-0">
-                <div className="bg-secondary/20 p-4 border-b">
-                   <h3 className="font-bold flex items-center gap-2"><Eye size={18}/> Preview</h3>
-                </div>
-                <div className="relative aspect-[3/4] w-full bg-muted/30">
-                  <iframe 
-                    src={`${resultUrl}#toolbar=0`} 
-                    className="w-full h-full border-none"
-                    title="Watermark Preview"
+                <div className="space-y-3">
+                  <Label>Watermark Text</Label>
+                  <Input
+                    value={watermarkText}
+                    onChange={(e) => setWatermarkText(e.target.value)}
                   />
                 </div>
+
+                <div>
+                  <Label>Opacity ({opacity}%)</Label>
+                  <Slider
+                    value={[opacity]}
+                    onValueChange={(v) => setOpacity(v[0])}
+                    min={0}
+                    max={100}
+                  />
+                </div>
+
+                <div>
+                  <Label>Rotation ({rotation}°)</Label>
+                  <Slider
+                    value={[rotation]}
+                    onValueChange={(v) => setRotation(v[0])}
+                    min={0}
+                    max={360}
+                  />
+                </div>
+
+                <Button
+                  onClick={applyWatermark}
+                  disabled={isProcessing}
+                  className="w-full h-12"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <Type className="mr-2 h-5 w-5" />
+                      Apply Watermark
+                    </>
+                  )}
+                </Button>
+
+              </Card>
+            )}
+
+          </div>
+        ) : (
+          <div className="space-y-8">
+
+            <Card>
+              <CardContent className="p-0">
+
+                <div className="p-4 border-b bg-muted">
+                  <Eye className="inline mr-2" />
+                  Preview
+                </div>
+
+                <iframe
+                  src={`${resultUrl}#toolbar=0`}
+                  className="w-full h-[500px]"
+                />
+
               </CardContent>
             </Card>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Button size="lg" onClick={handleDownload} className="w-full rounded-xl bg-primary h-14 text-lg">
-                <Download className="mr-2 h-6 w-6" /> Download Protected PDF
+            <div className="grid grid-cols-2 gap-4">
+
+              <Button onClick={handleDownload}>
+                Download
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
+
+              <Button variant="outline">
+                Share
+              </Button>
+
+            </div>
+
+            <div className="text-center">
+              <Button
+                variant="ghost"
                 onClick={() => {
-                  toast({ title: "Sharing initiated", description: "Sharing system dialog will open shortly." });
-                }} 
-                className="w-full rounded-xl h-14 text-lg border-2"
+                  setFile(null);
+                  setResultUrl(null);
+                }}
               >
-                <Share2 className="mr-2 h-6 w-6" /> Share File
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Watermark Another
               </Button>
             </div>
-            
-            <div className="text-center pt-4">
-               <Button 
-                variant="ghost" 
-                onClick={() => {setResultUrl(null); setFile(null);}} 
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <RefreshCw className="mr-2 h-4 w-4" /> Watermark Another PDF
-              </Button>
-            </div>
+
           </div>
         )}
+
       </div>
     </ToolLayout>
   );
