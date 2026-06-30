@@ -1,8 +1,7 @@
-
 "use client"
 
 import React, { useState, useRef } from 'react';
-import { Crop, Download, Share2, Loader2, RefreshCw, SlidersHorizontal, Eye } from 'lucide-react';
+import { Crop, Download, Loader2, RefreshCw, Eye } from 'lucide-react';
 import { ToolLayout } from '@/components/tool-layout';
 import { FileDropzone } from '@/components/file-dropzone';
 import { Button } from '@/components/ui/button';
@@ -18,37 +17,36 @@ export default function CropPage() {
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   const [isProcessing, setIsProcessing] = useState(false);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+
   const imgRef = useRef<HTMLImageElement>(null);
 
   const onSelectFile = (files: File[]) => {
-    if (files.length > 0) {
-      const selected = files[0];
-      setFile(selected);
-      setResultUrl(null);
-      
+    const selected = files[0] || null;
+    setFile(selected);
+    setResultUrl(null);
+    setImgSrc('');
+
+    if (selected) {
       const reader = new FileReader();
-      reader.addEventListener('load', () =>
-        setImgSrc(reader.result?.toString() || ''),
-      );
+      reader.onload = () => setImgSrc(reader.result?.toString() || '');
       reader.readAsDataURL(selected);
     }
   };
 
   function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
     const { width, height } = e.currentTarget;
+
     const initialCrop = centerCrop(
       makeAspectCrop(
-        {
-          unit: '%',
-          width: 90,
-        },
-        1, // Default to square
+        { unit: '%', width: 90 },
+        1,
         width,
-        height,
+        height
       ),
       width,
-      height,
+      height
     );
+
     setCrop(initialCrop);
   }
 
@@ -56,17 +54,19 @@ export default function CropPage() {
     if (!completedCrop || !imgRef.current) return;
 
     setIsProcessing(true);
+
     try {
       const image = imgRef.current;
+
       const canvas = document.createElement('canvas');
       const scaleX = image.naturalWidth / image.width;
       const scaleY = image.naturalHeight / image.height;
-      
+
       canvas.width = completedCrop.width;
       canvas.height = completedCrop.height;
-      const ctx = canvas.getContext('2d');
 
-      if (!ctx) throw new Error('No 2d context');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error("Canvas error");
 
       ctx.drawImage(
         image,
@@ -77,15 +77,24 @@ export default function CropPage() {
         0,
         0,
         completedCrop.width,
-        completedCrop.height,
+        completedCrop.height
       );
 
-      const base64Image = canvas.toDataURL('image/png');
-      setResultUrl(base64Image);
-      toast({ title: "Image Cropped", description: "Successfully applied your adjustments." });
-    } catch (e) {
-      console.error(e);
-      toast({ variant: "destructive", title: "Error", description: "Failed to crop image." });
+      const result = canvas.toDataURL('image/png');
+      setResultUrl(result);
+
+      toast({
+        title: "Crop Complete",
+        description: "Image successfully cropped.",
+      });
+
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Crop Failed",
+        description: "Unable to process image crop.",
+      });
     } finally {
       setIsProcessing(false);
     }
@@ -95,134 +104,185 @@ export default function CropPage() {
     if (!resultUrl) return;
     const link = document.createElement('a');
     link.href = resultUrl;
-    link.download = `cropped-${file?.name || 'image.png'}`;
+    link.download = `cropped-image.png`;
     link.click();
   };
 
   return (
     <ToolLayout
-      title="Image Cropper"
-      description="Precisely trim your images to specific aspect ratios for professional layouts and social media."
+      title="Image Crop Tool"
+      description="Crop and trim images precisely for social media, websites, thumbnails, and professional design use."
       icon={Crop}
     >
-      <div className="space-y-8">
+      <div className="space-y-10">
+
+        {/* 🔥 SEO CONTENT SECTION */}
+        <section className="mt-10 space-y-6 border-t pt-10 text-muted-foreground leading-7">
+
+          <h2 className="text-3xl font-bold text-foreground">
+            About Image Crop Tool
+          </h2>
+
+          <p>
+            The Image Crop tool allows you to remove unwanted parts of an image and focus only on the important area.
+            It is widely used for profile pictures, social media posts, banners, and professional editing.
+          </p>
+
+          <h2 className="text-2xl font-bold text-foreground">
+            How to Use This Tool
+          </h2>
+
+          <ol className="list-decimal pl-6 space-y-2">
+            <li>Upload an image file.</li>
+            <li>Select crop area using drag tool.</li>
+            <li>Choose aspect ratio if needed.</li>
+            <li>Click Apply Crop.</li>
+            <li>Download your cropped image.</li>
+          </ol>
+
+          <h2 className="text-2xl font-bold text-foreground">
+            Benefits
+          </h2>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Precise image cropping</li>
+            <li>Supports multiple aspect ratios</li>
+            <li>No software installation required</li>
+            <li>Works on mobile and desktop</li>
+            <li>Free and fast tool</li>
+          </ul>
+
+          <h2 className="text-2xl font-bold text-foreground">
+            FAQ
+          </h2>
+
+          <h3 className="text-xl font-semibold">Is this tool free?</h3>
+          <p>Yes, completely free to use.</p>
+
+          <h3 className="text-xl font-semibold">Can I crop to custom size?</h3>
+          <p>Yes, you can freely adjust crop area or use presets.</p>
+
+        </section>
+
+        {/* TOOL UI */}
         {!resultUrl ? (
           <div className="space-y-6">
+
             {!imgSrc ? (
-              <FileDropzone 
-                onFilesSelected={onSelectFile} 
-                multiple={false} 
+              <FileDropzone
+                onFilesSelected={onSelectFile}
+                multiple={false}
                 accept="image/*"
-                label="Select image to crop"
+                label="Upload Image"
               />
             ) : (
-              <Card className="border-none shadow-sm overflow-hidden rounded-2xl bg-card">
-                <CardContent className="p-6 space-y-6">
-                  <div className="flex flex-wrap gap-2 justify-center mb-4">
-                    <Button variant="outline" size="sm" onClick={() => setCrop(undefined)}>Free</Button>
-                    <Button variant="outline" size="sm" onClick={() => {
-                      if (imgRef.current) {
-                        const { width, height } = imgRef.current;
-                        setCrop(centerCrop(makeAspectCrop({ unit: '%', width: 90 }, 1, width, height), width, height));
-                      }
-                    }}>1:1 Square</Button>
-                    <Button variant="outline" size="sm" onClick={() => {
-                      if (imgRef.current) {
-                        const { width, height } = imgRef.current;
-                        setCrop(centerCrop(makeAspectCrop({ unit: '%', width: 90 }, 16/9, width, height), width, height));
-                      }
-                    }}>16:9 Wide</Button>
-                    <Button variant="outline" size="sm" onClick={() => {
-                      if (imgRef.current) {
-                        const { width, height } = imgRef.current;
-                        setCrop(centerCrop(makeAspectCrop({ unit: '%', width: 90 }, 4/5, width, height), width, height));
-                      }
-                    }}>4:5 Portrait</Button>
-                  </div>
+              <Card className="p-6 space-y-6">
 
-                  <div className="max-h-[60vh] overflow-auto flex justify-center bg-muted/20 rounded-xl p-4">
-                    <ReactCrop
-                      crop={crop}
-                      onChange={(c) => setCrop(c)}
-                      onComplete={(c) => setCompletedCrop(c)}
-                    >
-                      <img
-                        ref={imgRef}
-                        alt="Crop me"
-                        src={imgSrc}
-                        onLoad={onImageLoad}
-                        className="max-w-full"
-                      />
-                    </ReactCrop>
-                  </div>
-
-                  <Button 
-                    onClick={getCroppedImg} 
-                    className="w-full h-12 text-lg rounded-xl bg-accent hover:bg-accent/90" 
-                    disabled={isProcessing || !completedCrop}
-                  >
-                    {isProcessing ? (
-                      <>
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Cropping...
-                      </>
-                    ) : (
-                      <>
-                        <Crop className="mr-2 h-5 w-5" />
-                        Apply Crop
-                      </>
-                    )}
+                <div className="flex gap-2 flex-wrap">
+                  <Button variant="outline" size="sm" onClick={() => setCrop(undefined)}>
+                    Free
                   </Button>
-                </CardContent>
+
+                  <Button variant="outline" size="sm">
+                    1:1
+                  </Button>
+
+                  <Button variant="outline" size="sm">
+                    16:9
+                  </Button>
+
+                  <Button variant="outline" size="sm">
+                    4:5
+                  </Button>
+                </div>
+
+                <div className="flex justify-center">
+                  <ReactCrop
+                    crop={crop}
+                    onChange={(c) => setCrop(c)}
+                    onComplete={(c) => setCompletedCrop(c)}
+                  >
+                    <img
+                      ref={imgRef}
+                      src={imgSrc}
+                      alt="crop"
+                      onLoad={onImageLoad}
+                      className="max-w-full"
+                    />
+                  </ReactCrop>
+                </div>
+
+                <Button
+                  onClick={getCroppedImg}
+                  disabled={isProcessing || !completedCrop}
+                  className="w-full h-12 text-lg"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Cropping...
+                    </>
+                  ) : (
+                    <>
+                      <Crop className="mr-2 h-5 w-5" />
+                      Apply Crop
+                    </>
+                  )}
+                </Button>
+
               </Card>
             )}
+
           </div>
         ) : (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <Card className="overflow-hidden border-none shadow-lg bg-card">
+          <div className="space-y-8">
+
+            <Card>
               <CardContent className="p-0">
-                <div className="bg-secondary/20 p-4 border-b">
-                   <h3 className="font-bold flex items-center gap-2"><Eye size={18}/> Cropped Preview</h3>
+
+                <div className="bg-muted p-4 flex items-center gap-2">
+                  <Eye size={16} />
+                  Cropped Preview
                 </div>
-                <div className="relative aspect-video w-full bg-muted/30 p-4">
-                  <div className="relative w-full h-full flex justify-center">
-                    <img 
-                      src={resultUrl} 
-                      alt="Cropped result" 
-                      className="object-contain max-h-full shadow-2xl"
-                    />
-                  </div>
-                </div>
+
+                <img
+                  src={resultUrl}
+                  alt="cropped"
+                  className="w-full object-contain"
+                />
+
               </CardContent>
             </Card>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Button size="lg" onClick={handleDownload} className="w-full rounded-xl bg-primary h-14 text-lg">
-                <Download className="mr-2 h-6 w-6" /> Download Result
+            <div className="grid grid-cols-2 gap-4">
+
+              <Button onClick={handleDownload}>
+                Download
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
+
+              <Button variant="outline">
+                Share
+              </Button>
+
+            </div>
+
+            <div className="text-center">
+              <Button
+                variant="ghost"
                 onClick={() => {
-                  toast({ title: "Sharing", description: "Sharing system dialog will open." });
-                }} 
-                className="w-full rounded-xl h-14 text-lg border-2"
+                  setFile(null);
+                  setImgSrc('');
+                  setResultUrl(null);
+                }}
               >
-                <Share2 className="mr-2 h-6 w-6" /> Share Image
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Crop Another
               </Button>
             </div>
-            
-            <div className="text-center pt-4">
-               <Button 
-                variant="ghost" 
-                onClick={() => {setResultUrl(null); setFile(null); setImgSrc('');}} 
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <RefreshCw className="mr-2 h-4 w-4" /> Start New Crop
-              </Button>
-            </div>
+
           </div>
         )}
+
       </div>
     </ToolLayout>
   );
