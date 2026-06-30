@@ -1,3 +1,12 @@
+export default function Home() {
+  return (
+    <div>
+      <h1 style={{color:"red", fontSize:"40px"}}>
+        HOME PAGE TEST 123
+      </h1>
+    </div>
+  );
+}
 import Link from 'next/link';
 import {
   FileImage,
