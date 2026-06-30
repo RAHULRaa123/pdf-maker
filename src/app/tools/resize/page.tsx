@@ -1,8 +1,7 @@
-
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import { Maximize, Download, Share2, Loader2, RefreshCw, Move, Eye } from 'lucide-react';
+import React, { useState } from 'react';
+import { Maximize, Download, Share2, Loader2, RefreshCw, Move } from 'lucide-react';
 import { ToolLayout } from '@/components/tool-layout';
 import { FileDropzone } from '@/components/file-dropzone';
 import { Button } from '@/components/ui/button';
@@ -22,6 +21,8 @@ export default function ResizePage() {
   const handleFileSelect = (files: File[]) => {
     const selected = files[0] || null;
     setFile(selected);
+    setResizedUrl(null);
+
     if (selected) {
       const img = new window.Image();
       img.onload = () => {
@@ -35,10 +36,11 @@ export default function ResizePage() {
   const processResize = async () => {
     if (!file) return;
     setIsProcessing(true);
-    
+
     try {
-      const imgData = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
+      const reader = new FileReader();
+
+      const imgData: string = await new Promise((resolve, reject) => {
         reader.onload = (e) => resolve(e.target?.result as string);
         reader.onerror = reject;
         reader.readAsDataURL(file);
@@ -46,23 +48,34 @@ export default function ResizePage() {
 
       const img = new window.Image();
       img.src = imgData;
-      await new Promise((resolve) => { img.onload = resolve; });
+
+      await new Promise((resolve) => (img.onload = resolve));
 
       const canvas = document.createElement('canvas');
       canvas.width = parseInt(width) || img.width;
       canvas.height = parseInt(height) || img.height;
+
       const ctx = canvas.getContext('2d');
-      if (!ctx) throw new Error("Could not get canvas context");
-      
+      if (!ctx) throw new Error("Canvas error");
+
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      
+
       const resizedDataUrl = canvas.toDataURL('image/png');
+
       setResizedUrl(resizedDataUrl);
-      
-      toast({ title: "Resized", description: `Image scaled to ${canvas.width}x${canvas.height} successfully.` });
+
+      toast({
+        title: "Resize Complete",
+        description: `Image resized to ${canvas.width} × ${canvas.height}`,
+      });
+
     } catch (error) {
       console.error(error);
-      toast({ variant: "destructive", title: "Resize Failed", description: "Could not process image scaling." });
+      toast({
+        variant: "destructive",
+        title: "Resize Failed",
+        description: "Unable to resize image.",
+      });
     } finally {
       setIsProcessing(false);
     }
@@ -72,117 +85,172 @@ export default function ResizePage() {
     if (!resizedUrl) return;
     const link = document.createElement('a');
     link.href = resizedUrl;
-    link.download = `resized-${file?.name || 'image.png'}`;
+    link.download = `resized-image.png`;
     link.click();
-  };
-
-  const startOver = () => {
-    if (resizedUrl) URL.revokeObjectURL(resizedUrl);
-    setResizedUrl(null);
-    setFile(null);
   };
 
   return (
     <ToolLayout
-      title="Precision Resizer"
-      description="Scale and crop images to specific dimensions or aspect ratios for any platform requirement."
+      title="Image Resizer"
+      description="Resize images to any dimension instantly without losing quality. Perfect for social media, websites, and documents."
       icon={Maximize}
     >
-      <div className="space-y-8">
+      <div className="space-y-10">
+
+        {/* 🔥 SEO CONTENT SECTION */}
+        <section className="mt-10 space-y-6 border-t pt-10 text-muted-foreground leading-7">
+
+          <h2 className="text-3xl font-bold text-foreground">
+            About Image Resizer Tool
+          </h2>
+
+          <p>
+            The Image Resizer tool allows you to change the width and height of any image quickly.
+            It is useful for social media posts, thumbnails, websites, and document formatting without installing any software.
+          </p>
+
+          <h2 className="text-2xl font-bold text-foreground">
+            How to Use This Tool
+          </h2>
+
+          <ol className="list-decimal pl-6 space-y-2">
+            <li>Upload an image from your device.</li>
+            <li>Enter desired width and height.</li>
+            <li>Click Apply New Dimensions.</li>
+            <li>Preview resized image.</li>
+            <li>Download your result.</li>
+          </ol>
+
+          <h2 className="text-2xl font-bold text-foreground">
+            Benefits
+          </h2>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Resize images instantly</li>
+            <li>No software required</li>
+            <li>Works on mobile and desktop</li>
+            <li>Maintains good image quality</li>
+            <li>Free and easy to use</li>
+          </ul>
+
+          <h2 className="text-2xl font-bold text-foreground">
+            FAQ
+          </h2>
+
+          <h3 className="text-xl font-semibold">Is this tool free?</h3>
+          <p>Yes, it is completely free.</p>
+
+          <h3 className="text-xl font-semibold">Does resizing reduce quality?</h3>
+          <p>It depends on scaling, but basic quality is preserved.</p>
+
+        </section>
+
+        {/* TOOL UI */}
         {!resizedUrl ? (
           <div className="space-y-6">
-            <FileDropzone 
-              onFilesSelected={handleFileSelect} 
-              multiple={false} 
+
+            <FileDropzone
+              onFilesSelected={handleFileSelect}
               accept="image/*"
-              label="Select an image to resize"
+              multiple={false}
+              label="Upload Image"
             />
+
             {file && (
-              <Card className="border-none shadow-sm overflow-hidden rounded-2xl bg-card">
-                <CardContent className="p-6 space-y-4">
-                   <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="width">Width (px)</Label>
-                        <Input 
-                          id="width" 
-                          value={width} 
-                          onChange={(e) => setWidth(e.target.value)} 
-                          type="number" 
-                          placeholder="Width"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="height">Height (px)</Label>
-                        <Input 
-                          id="height" 
-                          value={height} 
-                          onChange={(e) => setHeight(e.target.value)} 
-                          type="number" 
-                          placeholder="Height"
-                        />
-                      </div>
-                   </div>
-                   <Button 
-                    onClick={processResize} 
-                    className="w-full h-12 text-lg rounded-xl bg-accent hover:bg-accent/90" 
-                    disabled={isProcessing}
-                  >
-                    {isProcessing ? (
-                      <>
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        <Move className="mr-2 h-5 w-5" />
-                        Apply New Dimensions
-                      </>
-                    )}
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        ) : (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-             <Card className="overflow-hidden border-none shadow-lg">
-              <CardContent className="p-0">
-                <div className="bg-secondary/20 p-4 border-b">
-                   <h3 className="font-bold flex items-center gap-2"><Eye size={18}/> Preview ({width}x{height})</h3>
-                </div>
-                <div className="relative aspect-video w-full bg-slate-100 p-4">
-                  <div className="relative w-full h-full">
-                    <Image 
-                      src={resizedUrl} 
-                      alt="Resized" 
-                      fill 
-                      className="object-contain"
+              <Card className="p-6 space-y-6">
+
+                <div className="grid grid-cols-2 gap-4">
+
+                  <div className="space-y-2">
+                    <Label>Width</Label>
+                    <Input
+                      type="number"
+                      value={width}
+                      onChange={(e) => setWidth(e.target.value)}
                     />
                   </div>
+
+                  <div className="space-y-2">
+                    <Label>Height</Label>
+                    <Input
+                      type="number"
+                      value={height}
+                      onChange={(e) => setHeight(e.target.value)}
+                    />
+                  </div>
+
                 </div>
+
+                <Button
+                  onClick={processResize}
+                  disabled={isProcessing}
+                  className="w-full h-12 text-lg"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <Move className="mr-2 h-5 w-5" />
+                      Apply Resize
+                    </>
+                  )}
+                </Button>
+
+              </Card>
+            )}
+
+          </div>
+        ) : (
+          <div className="space-y-8">
+
+            <Card>
+              <CardContent className="p-0">
+
+                <div className="relative aspect-video w-full bg-muted">
+                  <Image
+                    src={resizedUrl}
+                    alt="resized"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+
               </CardContent>
             </Card>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Button size="lg" onClick={handleDownload} className="rounded-xl bg-primary h-12 text-lg">
-                <Download className="mr-2 h-5 w-5" /> Download Result
+
+            <div className="grid grid-cols-2 gap-4">
+
+              <Button onClick={handleDownload}>
+                <Download className="mr-2 h-5 w-5" />
+                Download
               </Button>
-              <Button size="lg" variant="outline" className="rounded-xl h-12 text-lg border-2">
-                <Share2 className="mr-2 h-5 w-5" /> Share Image
+
+              <Button variant="outline">
+                <Share2 className="mr-2 h-5 w-5" />
+                Share
               </Button>
+
             </div>
-            
+
             <div className="text-center">
-               <Button 
-                variant="ghost" 
-                onClick={startOver} 
-                className="text-muted-foreground"
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setFile(null);
+                  setResizedUrl(null);
+                }}
               >
-                <RefreshCw className="mr-2 h-4 w-4" /> Resize Another
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Resize Another
               </Button>
             </div>
+
           </div>
         )}
+
       </div>
     </ToolLayout>
   );
