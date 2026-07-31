@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://pdf-maker-virid.vercel.app";
+  const base = "https://pdf-maker-virid.vercel.app";
 
   const routes = [
     "",
@@ -11,19 +11,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy",
     "/terms",
     "/tools",
-    "/tools/compress",
-    "/tools/crop",
-    "/tools/decompose",
     "/tools/image-to-pdf",
     "/tools/merge-pdf",
-    "/tools/pdf-to-image",
-    "/tools/protect",
+    "/tools/decompose",
+    "/tools/compress",
     "/tools/resize",
+    "/tools/crop",
+    "/tools/protect",
     "/tools/watermark",
+    "/tools/pdf-to-image",
   ];
 
   return routes.map((route) => ({
-    url: `${baseUrl}${route}`,
+    url: `${base}${route}`,
     lastModified: new Date(),
   }));
 }
