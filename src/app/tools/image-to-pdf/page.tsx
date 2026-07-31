@@ -1,242 +1,97 @@
-"use client"
+<section className="mt-10 space-y-8 border-t pt-10 text-muted-foreground leading-8">
 
-import React, { useState } from 'react';
-import { FileImage, Download, Share2, Loader2, RefreshCw, Layers, Eye } from 'lucide-react';
-import { ToolLayout } from '@/components/tool-layout';
-import { FileDropzone } from '@/components/file-dropzone';
-import { Button } from '@/components/ui/button';
-import { toast } from '@/hooks/use-toast';
-import { jsPDF } from 'jspdf';
-import { Card, CardContent } from '@/components/ui/card';
+  <h2 className="text-3xl font-bold text-foreground">
+    Complete Guide to Image to PDF Converter
+  </h2>
 
-export default function ImageToPdfPage() {
-  const [files, setFiles] = useState<File[]>([]);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  <p>
+    Image to PDF Converter is a free online tool that allows users to combine
+    multiple images into a single PDF document without installing any software.
+    It supports JPG, JPEG, PNG, WebP, BMP and many other image formats.
+    Students, teachers, office employees, freelancers and business owners use
+    this tool every day to create professional PDF files from scanned documents,
+    handwritten notes, invoices, certificates, receipts and photographs.
+  </p>
 
-  const handleFilesSelect = (selectedFiles: File[]) => {
-    setFiles(selectedFiles);
-  };
+  <p>
+    Since PDF is one of the most accepted document formats, converting images
+    into PDF makes them easier to upload, print and share. Many government
+    portals, universities and companies accept PDF files instead of individual
+    images. Keeping all pages inside one PDF also makes document management much
+    easier.
+  </p>
 
-  const processConvert = async () => {
-    if (files.length === 0) return;
-    setIsProcessing(true);
+  <h2 className="text-2xl font-bold text-foreground">
+    Why Convert Images to PDF?
+  </h2>
 
-    try {
-      const doc = new jsPDF();
+  <p>
+    Image files are useful for taking photographs, but PDF files are much
+    better for storing multiple pages together. A PDF keeps pages organized,
+    preserves formatting and can easily be shared through email or online
+    portals. Whether you are submitting homework, applying for a job or sending
+    business documents, PDF remains the preferred format.
+  </p>
 
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+  <ul className="list-disc pl-6 space-y-2">
+    <li>Combine unlimited images into one PDF</li>
+    <li>Maintain high image quality</li>
+    <li>Works directly inside your browser</li>
+    <li>No registration required</li>
+    <li>No software installation</li>
+    <li>Fast conversion process</li>
+    <li>Compatible with Windows, Mac, Android and iPhone</li>
+  </ul>
 
-        const imgData = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = (e) => resolve(e.target?.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
+  <h2 className="text-2xl font-bold text-foreground">
+    Common Uses
+  </h2>
 
-        if (i > 0) doc.addPage();
+  <p>
+    Students use this tool for assignments and handwritten notes. Teachers
+    create learning materials. Office workers combine invoices and reports.
+    Freelancers prepare portfolios. Small businesses organize receipts,
+    contracts and customer documents. Anyone can quickly create a professional
+    PDF from multiple images.
+  </p>
 
-        const img = new Image();
-        img.src = imgData;
+  <h2 className="text-2xl font-bold text-foreground">
+    Privacy and Security
+  </h2>
 
-        await new Promise((resolve) => {
-          img.onload = resolve;
-        });
+  <p>
+    Your files stay on your own device during processing. The conversion
+    happens inside your browser, helping protect your personal documents and
+    reducing unnecessary uploads.
+  </p>
 
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
-        const imgProps = doc.getImageProperties(imgData);
+  <h2 className="text-2xl font-bold text-foreground">
+    Frequently Asked Questions
+  </h2>
 
-        const ratio = Math.min(pageWidth / imgProps.width, pageHeight / imgProps.height);
-        const width = imgProps.width * ratio;
-        const height = imgProps.height * ratio;
+  <h3 className="text-xl font-semibold text-foreground">
+    Is Image to PDF free?
+  </h3>
 
-        const x = (pageWidth - width) / 2;
-        const y = (pageHeight - height) / 2;
+  <p>
+    Yes. The converter is completely free and does not require registration.
+  </p>
 
-        doc.addImage(imgData, 'JPEG', x, y, width, height);
-      }
+  <h3 className="text-xl font-semibold text-foreground">
+    Does it work on mobile devices?
+  </h3>
 
-      const blob = doc.output('blob');
-      const url = URL.createObjectURL(blob);
-      setPdfUrl(url);
+  <p>
+    Yes. The tool works on Android phones, iPhones, tablets and desktop
+    computers.
+  </p>
 
-      toast({
-        title: "PDF Created Successfully",
-        description: `${files.length} images combined into one PDF.`,
-      });
+  <h3 className="text-xl font-semibold text-foreground">
+    Which image formats are supported?
+  </h3>
 
-    } catch (error) {
-      console.error(error);
-      toast({
-        variant: "destructive",
-        title: "Conversion Failed",
-        description: "Unable to generate PDF. Try again.",
-      });
-    } finally {
-      setIsProcessing(false);
-    }
-  };
+  <p>
+    JPG, JPEG, PNG, WebP, BMP and most popular image formats.
+  </p>
 
-  const handleDownload = () => {
-    if (!pdfUrl) return;
-    const link = document.createElement('a');
-    link.href = pdfUrl;
-    link.download = "converted-images.pdf";
-    link.click();
-  };
-
-  const startOver = () => {
-    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
-    setPdfUrl(null);
-    setFiles([]);
-  };
-
-  return (
-    <ToolLayout
-      title="Image to PDF Converter"
-      description="Convert multiple images into a single high-quality PDF file instantly."
-      icon={FileImage}
-    >
-      <div className="space-y-10">
-
-        {/* 🔥 SEO CONTENT FOR ADSENSE */}
-        <section className="mt-10 space-y-6 border-t pt-10 text-muted-foreground leading-7">
-
-          <h2 className="text-3xl font-bold text-foreground">
-            About Image to PDF Converter
-          </h2>
-
-          <p>
-            Image to PDF is a free online tool that allows you to convert JPG, PNG,
-            WebP, BMP, and other image formats into a single PDF document. This tool is
-            useful for students, office workers, teachers, freelancers, and anyone who
-            needs to organize multiple images into one professional PDF file.
-          </p>
-
-          <h2 className="text-2xl font-bold text-foreground">
-            How to Use This Tool
-          </h2>
-
-          <ol className="list-decimal pl-6 space-y-2">
-            <li>Select one or more images from your device.</li>
-            <li>Arrange images in correct order.</li>
-            <li>Click on Generate PDF button.</li>
-            <li>Wait for processing to complete.</li>
-            <li>Download your PDF file instantly.</li>
-          </ol>
-
-          <h2 className="text-2xl font-bold text-foreground">
-            Benefits
-          </h2>
-
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Fast and free conversion</li>
-            <li>No software installation required</li>
-            <li>Works on mobile and desktop</li>
-            <li>Supports multiple image formats</li>
-            <li>High-quality PDF output</li>
-          </ul>
-
-          <h2 className="text-2xl font-bold text-foreground">
-            Frequently Asked Questions
-          </h2>
-
-          <h3 className="text-xl font-semibold text-foreground">
-            Is this tool free?
-          </h3>
-          <p>Yes, it is completely free to use.</p>
-
-          <h3 className="text-xl font-semibold text-foreground">
-            Which formats are supported?
-          </h3>
-          <p>JPG, PNG, WebP, BMP and most image formats are supported.</p>
-
-          <h3 className="text-xl font-semibold text-foreground">
-            Can I use it on mobile?
-          </h3>
-          <p>Yes, it works on all smartphones, tablets and computers.</p>
-
-        </section>
-
-        {/* TOOL UI */}
-        {!pdfUrl ? (
-          <div className="space-y-6">
-            <FileDropzone
-              onFilesSelected={handleFilesSelect}
-              accept="image/*"
-              label="Select images to convert"
-            />
-
-            {files.length > 0 && (
-              <div className="flex flex-col gap-4">
-                <div className="flex justify-between text-sm text-muted-foreground px-2">
-                  <span>{files.length} images selected</span>
-                  <span>
-                    {(files.reduce((a, f) => a + f.size, 0) / 1024 / 1024).toFixed(2)} MB
-                  </span>
-                </div>
-
-                <Button
-                  onClick={processConvert}
-                  className="w-full h-12 text-lg rounded-xl bg-accent"
-                  disabled={isProcessing}
-                >
-                  {isProcessing ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Generating PDF...
-                    </>
-                  ) : (
-                    <>
-                      <Layers className="mr-2 h-5 w-5" />
-                      Generate PDF
-                    </>
-                  )}
-                </Button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="space-y-6">
-
-            <Card className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="p-4 border-b bg-muted">
-                  <h3 className="flex items-center gap-2 font-semibold">
-                    <Eye size={18} /> PDF Preview
-                  </h3>
-                </div>
-
-                <iframe
-                  src={`${pdfUrl}#toolbar=0`}
-                  className="w-full h-[500px]"
-                  title="PDF Preview"
-                />
-              </CardContent>
-            </Card>
-
-            <div className="grid grid-cols-2 gap-4">
-              <Button onClick={handleDownload} className="h-12">
-                <Download className="mr-2 h-5 w-5" /> Download
-              </Button>
-
-              <Button variant="outline" className="h-12">
-                <Share2 className="mr-2 h-5 w-5" /> Share
-              </Button>
-            </div>
-
-            <div className="text-center">
-              <Button variant="ghost" onClick={startOver}>
-                <RefreshCw className="mr-2 h-4 w-4" /> Start Again
-              </Button>
-            </div>
-
-          </div>
-        )}
-
-      </div>
-    </ToolLayout>
-  );
-}
+</section>
