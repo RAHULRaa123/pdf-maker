@@ -1,221 +1,90 @@
-"use client"
+{/* SEO CONTENT */}
+<section className="mt-10 space-y-8 border-t pt-10 text-muted-foreground leading-8">
 
-import React, { useState } from 'react';
-import { Image as ImageIcon, Download, Loader2, RefreshCw, FileType } from 'lucide-react';
-import { ToolLayout } from '@/components/tool-layout';
-import { FileDropzone } from '@/components/file-dropzone';
-import { Button } from '@/components/ui/button';
-import { toast } from '@/hooks/use-toast';
-import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
-import * as pdfjs from 'pdfjs-dist';
+  <h2 className="text-3xl font-bold text-foreground">
+    Complete Guide to PDF to Image Converter
+  </h2>
 
-pdfjs.GlobalWorkerOptions.workerSrc =
-  `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+  <p>
+    PDF to Image Converter is a free online tool that converts PDF pages into
+    high-quality image files. Whether you need JPG or PNG output, this tool
+    makes it easy to extract images from PDF documents without installing any
+    software.
+  </p>
 
-export default function PdfToImagePage() {
-  const [file, setFile] = useState<File | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [images, setImages] = useState<string[]>([]);
+  <p>
+    Students, teachers, designers, office employees and business professionals
+    often need images from PDF files for presentations, documents, websites or
+    social media. This tool provides a simple and fast solution.
+  </p>
 
-  const handleFileSelect = (files: File[]) => {
-    setFile(files[0] || null);
-    setImages([]);
-  };
+  <h2 className="text-2xl font-bold text-foreground">
+    Why Convert PDF to Images?
+  </h2>
 
-  const convertPdfToImages = async () => {
-    if (!file) return;
-    setIsProcessing(true);
+  <p>
+    Converting PDF pages into images makes them easier to share, edit and use
+    in presentations, websites, reports and graphic design projects. Images are
+    also supported by almost every device and platform.
+  </p>
 
-    try {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+  <ul className="list-disc pl-6 space-y-2">
+    <li>Convert every PDF page into an image</li>
+    <li>High-quality output</li>
+    <li>No software installation required</li>
+    <li>Fast browser-based conversion</li>
+    <li>Works on Windows, macOS, Android and iPhone</li>
+    <li>Simple interface for beginners</li>
+    <li>Free to use</li>
+  </ul>
 
-      const imageUrls: string[] = [];
+  <h2 className="text-2xl font-bold text-foreground">
+    Common Uses
+  </h2>
 
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: 2.0 });
+  <p>
+    Students create study notes. Teachers prepare classroom material.
+    Businesses extract pages from reports. Designers use PDF pages as images
+    for editing and publishing.
+  </p>
 
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
+  <h2 className="text-2xl font-bold text-foreground">
+    Privacy and Security
+  </h2>
 
-        if (!context) continue;
+  <p>
+    Your PDF files are processed securely in your browser whenever possible.
+    Your documents remain private and are not permanently stored after
+    processing.
+  </p>
 
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+  <h2 className="text-2xl font-bold text-foreground">
+    Frequently Asked Questions
+  </h2>
 
-        await page.render({
-          canvasContext: context,
-          viewport
-        }).promise;
+  <h3 className="text-xl font-semibold text-foreground">
+    Is PDF to Image Converter free?
+  </h3>
 
-        imageUrls.push(canvas.toDataURL('image/png'));
-      }
+  <p>
+    Yes. You can convert PDF files into images without any cost.
+  </p>
 
-      setImages(imageUrls);
+  <h3 className="text-xl font-semibold text-foreground">
+    Which image formats are supported?
+  </h3>
 
-      toast({
-        title: "Conversion Complete",
-        description: `${imageUrls.length} pages converted into images.`,
-      });
+  <p>
+    Most PDF to Image tools support JPG and PNG output formats.
+  </p>
 
-    } catch (error) {
-      console.error(error);
-      toast({
-        variant: "destructive",
-        title: "Conversion Failed",
-        description: "Unable to convert PDF to images.",
-      });
-    } finally {
-      setIsProcessing(false);
-    }
-  };
+  <h3 className="text-xl font-semibold text-foreground">
+    Are my files secure?
+  </h3>
 
-  const handleDownload = (dataUrl: string, index: number) => {
-    const link = document.createElement('a');
-    link.href = dataUrl;
-    link.download = `page-${index + 1}.png`;
-    link.click();
-  };
+  <p>
+    Yes. Your files are processed with privacy in mind and are not permanently
+    stored after conversion.
+  </p>
 
-  return (
-    <ToolLayout
-      title="PDF to Image Converter"
-      description="Convert PDF pages into high-quality PNG images instantly and download each page separately."
-      icon={ImageIcon}
-    >
-      <div className="space-y-10">
-
-        {/* 🔥 SEO CONTENT SECTION */}
-        <section className="mt-10 space-y-6 border-t pt-10 text-muted-foreground leading-7">
-
-          <h2 className="text-3xl font-bold text-foreground">
-            About PDF to Image Converter
-          </h2>
-
-          <p>
-            The PDF to Image tool allows you to convert each page of a PDF document into high-quality images.
-            This is useful for sharing pages on social media, extracting content, presentations, and offline viewing.
-          </p>
-
-          <h2 className="text-2xl font-bold text-foreground">
-            How to Use This Tool
-          </h2>
-
-          <ol className="list-decimal pl-6 space-y-2">
-            <li>Upload your PDF file.</li>
-            <li>Click on Convert PDF to Images button.</li>
-            <li>Wait while pages are processed.</li>
-            <li>Download images individually.</li>
-          </ol>
-
-          <h2 className="text-2xl font-bold text-foreground">
-            Benefits
-          </h2>
-
-          <ul className="list-disc pl-6 space-y-2">
-            <li>High-quality image output</li>
-            <li>No software installation required</li>
-            <li>Works on all devices</li>
-            <li>Fast and easy conversion</li>
-          </ul>
-
-          <h2 className="text-2xl font-bold text-foreground">
-            FAQ
-          </h2>
-
-          <h3 className="text-xl font-semibold">Is this tool free?</h3>
-          <p>Yes, it is completely free to use.</p>
-
-          <h3 className="text-xl font-semibold">What format is output?</h3>
-          <p>All pages are converted into PNG images.</p>
-
-        </section>
-
-        {/* TOOL UI */}
-        {images.length === 0 ? (
-          <div className="space-y-6">
-
-            <FileDropzone
-              onFilesSelected={handleFileSelect}
-              multiple={false}
-              accept="application/pdf"
-              label="Select PDF file"
-            />
-
-            {file && (
-              <Button
-                onClick={convertPdfToImages}
-                className="w-full h-12 text-lg rounded-xl bg-accent"
-                disabled={isProcessing}
-              >
-                {isProcessing ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Converting...
-                  </>
-                ) : (
-                  <>
-                    <FileType className="mr-2 h-5 w-5" />
-                    Convert PDF to Images
-                  </>
-                )}
-              </Button>
-            )}
-
-          </div>
-        ) : (
-          <div className="space-y-8">
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {images.map((img, idx) => (
-                <Card key={idx} className="overflow-hidden shadow-lg">
-                  <CardContent className="p-0">
-
-                    <div className="relative aspect-[3/4] w-full bg-muted/30">
-                      <Image
-                        src={img}
-                        alt={`Page ${idx + 1}`}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-
-                    <div className="p-4 flex justify-between items-center border-t">
-                      <span className="text-sm font-bold">Page {idx + 1}</span>
-
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDownload(img, idx)}
-                      >
-                        Download
-                      </Button>
-                    </div>
-
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className="text-center pt-6 border-t">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  setImages([]);
-                  setFile(null);
-                }}
-              >
-                <RefreshCw className="mr-2 h-4 w-4" />
-                Convert Another PDF
-              </Button>
-            </div>
-
-          </div>
-        )}
-
-      </div>
-    </ToolLayout>
-  );
-}
+</section>
