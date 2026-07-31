@@ -2,83 +2,57 @@ import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
 
-  const baseUrl = "https://pdf-maker-virid.vercel.app";
-
   return [
     {
-      url: baseUrl,
+      url: "https://pdf-maker-virid.vercel.app",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/about`,
+      url: "https://pdf-maker-virid.vercel.app/about",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/blog`,
+      url: "https://pdf-maker-virid.vercel.app/blog",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/contact`,
+      url: "https://pdf-maker-virid.vercel.app/contact",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/privacy`,
+      url: "https://pdf-maker-virid.vercel.app/privacy",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/terms`,
+      url: "https://pdf-maker-virid.vercel.app/terms",
       lastModified: new Date(),
     },
-
-    // Tools
-
     {
-      url: `${baseUrl}/tools/compress`,
+      url: "https://pdf-maker-virid.vercel.app/tools",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/tools/crop`,
+      url: "https://pdf-maker-virid.vercel.app/tools/merge-pdf",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/tools/decompose`,
+      url: "https://pdf-maker-virid.vercel.app/tools/image-to-pdf",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/tools/image-to-pdf`,
+      url: "https://pdf-maker-virid.vercel.app/tools/compress",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/tools/merge-pdf`,
+      url: "https://pdf-maker-virid.vercel.app/tools/watermark",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/tools/pdf-to-image`,
+      url: "https://pdf-maker-virid.vercel.app/tools/protect",
       lastModified: new Date(),
     },
-
     {
-      url: `${baseUrl}/tools/protect`,
-      lastModified: new Date(),
-    },
-
-    {
-      url: `${baseUrl}/tools/resize`,
-      lastModified: new Date(),
-    },
-
-    {
-      url: `${baseUrl}/tools/watermark`,
+      url: "https://pdf-maker-virid.vercel.app/tools/split-pdf",
       lastModified: new Date(),
     },
   ];
