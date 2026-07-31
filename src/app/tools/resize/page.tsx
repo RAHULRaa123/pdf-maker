@@ -96,56 +96,99 @@ export default function ResizePage() {
       icon={Maximize}
     >
       <div className="space-y-10">
+{/* SEO CONTENT */}
+<section className="mt-10 space-y-8 border-t pt-10 text-muted-foreground leading-8">
 
-        {/* 🔥 SEO CONTENT SECTION */}
-        <section className="mt-10 space-y-6 border-t pt-10 text-muted-foreground leading-7">
+  <h2 className="text-3xl font-bold text-foreground">
+    Complete Guide to Image Resizer Tool
+  </h2>
 
-          <h2 className="text-3xl font-bold text-foreground">
-            About Image Resizer Tool
-          </h2>
+  <p>
+    Image Resizer Tool is a free online utility that allows users to change
+    image dimensions quickly and easily. You can increase or reduce image
+    width and height according to your requirements without installing any
+    software. It is useful for websites, social media, online applications,
+    documents, presentations and digital content creation.
+  </p>
 
-          <p>
-            The Image Resizer tool allows you to change the width and height of any image quickly.
-            It is useful for social media posts, thumbnails, websites, and document formatting without installing any software.
-          </p>
+  <p>
+    Images with large dimensions often take more storage space and load slowly.
+    Resizing images helps improve website performance, reduces file size and
+    makes images easier to upload, share and manage on different platforms.
+  </p>
 
-          <h2 className="text-2xl font-bold text-foreground">
-            How to Use This Tool
-          </h2>
+  <h2 className="text-2xl font-bold text-foreground">
+    Why Resize Images?
+  </h2>
 
-          <ol className="list-decimal pl-6 space-y-2">
-            <li>Upload an image from your device.</li>
-            <li>Enter desired width and height.</li>
-            <li>Click Apply New Dimensions.</li>
-            <li>Preview resized image.</li>
-            <li>Download your result.</li>
-          </ol>
+  <p>
+    Different platforms require different image dimensions. A resized image
+    can fit perfectly for profile pictures, website banners, thumbnails,
+    documents and social media posts while maintaining proper appearance.
+  </p>
 
-          <h2 className="text-2xl font-bold text-foreground">
-            Benefits
-          </h2>
+  <ul className="list-disc pl-6 space-y-2">
+    <li>Change image width and height easily</li>
+    <li>Create images for websites and social media</li>
+    <li>Reduce unnecessary image dimensions</li>
+    <li>No software installation required</li>
+    <li>Works directly in your browser</li>
+    <li>Compatible with Windows, macOS, Android and iPhone</li>
+    <li>Simple interface for beginners</li>
+  </ul>
 
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Resize images instantly</li>
-            <li>No software required</li>
-            <li>Works on mobile and desktop</li>
-            <li>Maintains good image quality</li>
-            <li>Free and easy to use</li>
-          </ul>
+  <h2 className="text-2xl font-bold text-foreground">
+    Common Uses
+  </h2>
 
-          <h2 className="text-2xl font-bold text-foreground">
-            FAQ
-          </h2>
+  <p>
+    Website owners resize images to improve loading speed. Students resize
+    images for assignments and online forms. Businesses optimize product
+    images for online stores. Social media users adjust images for profile
+    pictures, posts and thumbnails.
+  </p>
 
-          <h3 className="text-xl font-semibold">Is this tool free?</h3>
-          <p>Yes, it is completely free.</p>
+  <h2 className="text-2xl font-bold text-foreground">
+    Privacy and Security
+  </h2>
 
-          <h3 className="text-xl font-semibold">Does resizing reduce quality?</h3>
-          <p>It depends on scaling, but basic quality is preserved.</p>
+  <p>
+    Your images are processed inside your browser whenever possible. Files are
+    not permanently stored, helping keep your personal photos and documents
+    private during the resizing process.
+  </p>
 
-        </section>
+  <h2 className="text-2xl font-bold text-foreground">
+    Frequently Asked Questions
+  </h2>
 
-        {/* TOOL UI */}
+  <h3 className="text-xl font-semibold text-foreground">
+    Is Image Resizer Tool free?
+  </h3>
+
+  <p>
+    Yes. You can resize images completely free without registration.
+  </p>
+
+  <h3 className="text-xl font-semibold text-foreground">
+    Which image formats are supported?
+  </h3>
+
+  <p>
+    JPG, JPEG, PNG, WebP and other common image formats can be resized.
+  </p>
+
+  <h3 className="text-xl font-semibold text-foreground">
+    Does resizing reduce image quality?
+  </h3>
+
+  <p>
+    Image quality depends on the selected dimensions. The tool keeps the best
+    possible quality while creating the resized image.
+  </p>
+
+</section>
+                {/* TOOL UI */}
         {!resizedUrl ? (
           <div className="space-y-6">
 
@@ -212,7 +255,7 @@ export default function ResizePage() {
                 <div className="relative aspect-video w-full bg-muted">
                   <Image
                     src={resizedUrl}
-                    alt="resized"
+                    alt="resized image"
                     fill
                     className="object-contain"
                   />
@@ -220,6 +263,7 @@ export default function ResizePage() {
 
               </CardContent>
             </Card>
+
 
             <div className="grid grid-cols-2 gap-4">
 
@@ -235,7 +279,9 @@ export default function ResizePage() {
 
             </div>
 
+
             <div className="text-center">
+
               <Button
                 variant="ghost"
                 onClick={() => {
@@ -246,7 +292,9 @@ export default function ResizePage() {
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Resize Another
               </Button>
+
             </div>
+
 
           </div>
         )}
