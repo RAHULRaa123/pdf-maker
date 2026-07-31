@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Type, Download, Share2, Loader2, RefreshCw, SlidersHorizontal, Eye } from 'lucide-react';
+import { Type, Download, Share2, Loader2, RefreshCw, Eye } from 'lucide-react';
 import { ToolLayout } from '@/components/tool-layout';
 import { FileDropzone } from '@/components/file-dropzone';
 import { Button } from '@/components/ui/button';
@@ -52,7 +52,11 @@ export default function WatermarkPage() {
       });
 
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+      const blob = new Blob([pdfBytes], {
+        type: 'application/pdf',
+      });
+
       const url = URL.createObjectURL(blob);
 
       setResultUrl(url);
@@ -64,23 +68,28 @@ export default function WatermarkPage() {
 
     } catch (error) {
       console.error(error);
+
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to apply watermark.",
       });
+
     } finally {
       setIsProcessing(false);
     }
   };
 
+
   const handleDownload = () => {
     if (!resultUrl) return;
+
     const link = document.createElement('a');
     link.href = resultUrl;
     link.download = `watermarked.pdf`;
     link.click();
   };
+
 
   return (
     <ToolLayout
@@ -88,9 +97,12 @@ export default function WatermarkPage() {
       description="Add text watermarks to PDF files for copyright protection, branding, or document security."
       icon={Type}
     >
+
       <div className="space-y-10">
 
-        {/* 🔥 SEO CONTENT SECTION (ADSENSE BOOST) */}
+
+        {/* SEO CONTENT */}
+
         <section className="mt-10 space-y-6 border-t pt-10 text-muted-foreground leading-7">
 
           <h2 className="text-3xl font-bold text-foreground">
@@ -98,9 +110,11 @@ export default function WatermarkPage() {
           </h2>
 
           <p>
-            The PDF Watermark tool helps you add visible text on your documents to protect them from unauthorized use.
-            It is commonly used for business documents, study material, reports, and confidential files.
+            The PDF Watermark tool helps you add visible text on your documents
+            to protect them from unauthorized use. It is commonly used for
+            business documents, study material, reports, and confidential files.
           </p>
+
 
           <h2 className="text-2xl font-bold text-foreground">
             How to Use This Tool
@@ -108,11 +122,12 @@ export default function WatermarkPage() {
 
           <ol className="list-decimal pl-6 space-y-2">
             <li>Upload your PDF file.</li>
-            <li>Enter watermark text (e.g. CONFIDENTIAL).</li>
+            <li>Enter watermark text.</li>
             <li>Adjust opacity and rotation.</li>
             <li>Click Apply Watermark.</li>
             <li>Download your protected PDF.</li>
           </ol>
+
 
           <h2 className="text-2xl font-bold text-foreground">
             Benefits
@@ -126,20 +141,37 @@ export default function WatermarkPage() {
             <li>Free to use anytime</li>
           </ul>
 
+
           <h2 className="text-2xl font-bold text-foreground">
             FAQ
           </h2>
 
-          <h3 className="text-xl font-semibold">Is this tool free?</h3>
-          <p>Yes, completely free PDF watermark tool.</p>
 
-          <h3 className="text-xl font-semibold">Is my file uploaded?</h3>
-          <p>No, processing happens in your browser for privacy.</p>
+          <h3 className="text-xl font-semibold">
+            Is this tool free?
+          </h3>
+
+          <p>
+            Yes, completely free PDF watermark tool.
+          </p>
+
+
+          <h3 className="text-xl font-semibold">
+            Is my file uploaded?
+          </h3>
+
+          <p>
+            No, processing happens in your browser for privacy.
+          </p>
 
         </section>
 
+
+
         {/* TOOL UI */}
+
         {!resultUrl ? (
+
           <div className="space-y-6">
 
             <FileDropzone
@@ -149,91 +181,145 @@ export default function WatermarkPage() {
               label="Upload PDF"
             />
 
+
             {file && (
+
               <Card className="p-6 space-y-6">
 
                 <div className="space-y-3">
-                  <Label>Watermark Text</Label>
+
+                  <Label>
+                    Watermark Text
+                  </Label>
+
                   <Input
                     value={watermarkText}
                     onChange={(e) => setWatermarkText(e.target.value)}
                   />
+
                 </div>
 
+
                 <div>
-                  <Label>Opacity ({opacity}%)</Label>
+
+                  <Label>
+                    Opacity ({opacity}%)
+                  </Label>
+
                   <Slider
                     value={[opacity]}
                     onValueChange={(v) => setOpacity(v[0])}
                     min={0}
                     max={100}
                   />
+
                 </div>
 
+
                 <div>
-                  <Label>Rotation ({rotation}°)</Label>
+
+                  <Label>
+                    Rotation ({rotation}°)
+                  </Label>
+
                   <Slider
                     value={[rotation]}
                     onValueChange={(v) => setRotation(v[0])}
                     min={0}
                     max={360}
                   />
+
                 </div>
+
 
                 <Button
                   onClick={applyWatermark}
                   disabled={isProcessing}
                   className="w-full h-12"
                 >
+
                   {isProcessing ? (
+
                     <>
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                       Processing...
                     </>
+
                   ) : (
+
                     <>
                       <Type className="mr-2 h-5 w-5" />
                       Apply Watermark
                     </>
+
                   )}
+
                 </Button>
 
               </Card>
+
             )}
 
           </div>
+
+
         ) : (
+
+
           <div className="space-y-8">
 
+
             <Card>
+
               <CardContent className="p-0">
 
+
                 <div className="p-4 border-b bg-muted">
+
                   <Eye className="inline mr-2" />
                   Preview
+
                 </div>
+
 
                 <iframe
                   src={`${resultUrl}#toolbar=0`}
                   className="w-full h-[500px]"
                 />
 
+
               </CardContent>
+
             </Card>
+
+
 
             <div className="grid grid-cols-2 gap-4">
 
+
               <Button onClick={handleDownload}>
+
+                <Download className="mr-2 h-5 w-5" />
                 Download
+
               </Button>
 
+
+
               <Button variant="outline">
+
+                <Share2 className="mr-2 h-5 w-5" />
                 Share
+
               </Button>
+
 
             </div>
 
+
+
             <div className="text-center">
+
               <Button
                 variant="ghost"
                 onClick={() => {
@@ -241,15 +327,23 @@ export default function WatermarkPage() {
                   setResultUrl(null);
                 }}
               >
+
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Watermark Another
+
               </Button>
+
+
             </div>
 
+
           </div>
+
         )}
 
+
       </div>
+
     </ToolLayout>
   );
 }
