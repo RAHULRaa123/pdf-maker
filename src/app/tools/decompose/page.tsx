@@ -1,217 +1,94 @@
-"use client"
+{/* SEO CONTENT */}
+<section className="mt-10 space-y-8 border-t pt-10 text-muted-foreground leading-8">
 
-import React, { useState } from 'react';
-import { Scissors, Download, Share2, Loader2, RefreshCw, FileText, Package } from 'lucide-react';
-import { ToolLayout } from '@/components/tool-layout';
-import { FileDropzone } from '@/components/file-dropzone';
-import { Button } from '@/components/ui/button';
-import { toast } from '@/hooks/use-toast';
-import { PDFDocument } from 'pdf-lib';
-import JSZip from 'jszip';
+  <h2 className="text-3xl font-bold text-foreground">
+    Complete Guide to PDF Split Tool
+  </h2>
 
-export default function DecomposePage() {
-  const [file, setFile] = useState<File | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isDone, setIsDone] = useState(false);
-  const [zipBlob, setZipBlob] = useState<Blob | null>(null);
-  const [pageCount, setPageCount] = useState(0);
+  <p>
+    PDF Split Tool is a free online utility that helps you split a PDF document
+    into separate pages quickly and securely. Whether you want to extract one
+    page or every page from a PDF, this tool makes the process simple without
+    installing any software.
+  </p>
 
-  const handleFileSelect = (files: File[]) => {
-    setFile(files[0] || null);
-    setIsDone(false);
-    setZipBlob(null);
-  };
+  <p>
+    Students, teachers, office employees, lawyers, accountants and business
+    professionals often receive large PDF files that contain many pages. Instead
+    of sharing the complete document, you can extract only the required pages
+    and save them as separate PDF files.
+  </p>
 
-  const processDecompose = async () => {
-    if (!file) return;
+  <h2 className="text-2xl font-bold text-foreground">
+    Why Use a PDF Split Tool?
+  </h2>
 
-    setIsProcessing(true);
+  <p>
+    Splitting PDF files makes documents easier to organize, share and manage.
+    It reduces file size, improves workflow and allows you to send only the
+    pages that are actually needed.
+  </p>
 
-    try {
-      const fileBytes = await file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(fileBytes);
-      const count = pdfDoc.getPageCount();
+  <ul className="list-disc pl-6 space-y-2">
+    <li>Extract individual pages from any PDF</li>
+    <li>Create separate PDF files automatically</li>
+    <li>Fast browser-based processing</li>
+    <li>No software installation required</li>
+    <li>No registration needed</li>
+    <li>Compatible with Windows, macOS, Android and iPhone</li>
+    <li>Easy interface for beginners</li>
+  </ul>
 
-      setPageCount(count);
+  <h2 className="text-2xl font-bold text-foreground">
+    Common Uses
+  </h2>
 
-      const zip = new JSZip();
+  <p>
+    Students extract assignment pages before submitting coursework. Teachers
+    prepare classroom materials. Businesses separate invoices and contracts.
+    Government applicants upload only the required pages of certificates.
+    Accountants and legal professionals organize lengthy PDF documents into
+    smaller files.
+  </p>
 
-      for (let i = 0; i < count; i++) {
-        const newDoc = await PDFDocument.create();
-        const [page] = await newDoc.copyPages(pdfDoc, [i]);
-        newDoc.addPage(page);
+  <h2 className="text-2xl font-bold text-foreground">
+    Privacy and Security
+  </h2>
 
-        const pdfBytes = await newDoc.save();
-        zip.file(`page-${i + 1}.pdf`, pdfBytes);
-      }
+  <p>
+    Your PDF files are processed directly in your browser whenever possible.
+    Your documents remain private because files are not permanently stored on
+    external servers during the splitting process.
+  </p>
 
-      const content = await zip.generateAsync({ type: "blob" });
-      setZipBlob(content);
-      setIsDone(true);
+  <h2 className="text-2xl font-bold text-foreground">
+    Frequently Asked Questions
+  </h2>
 
-      toast({
-        title: "Split Complete",
-        description: `Successfully extracted ${count} pages.`,
-      });
+  <h3 className="text-xl font-semibold text-foreground">
+    Is this PDF Split Tool free?
+  </h3>
 
-    } catch (error) {
-      console.error(error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to split PDF.",
-      });
-    } finally {
-      setIsProcessing(false);
-    }
-  };
+  <p>
+    Yes. You can split PDF files completely free of charge.
+  </p>
 
-  const handleDownload = () => {
-    if (!zipBlob) return;
+  <h3 className="text-xl font-semibold text-foreground">
+    Can I extract only one page?
+  </h3>
 
-    const url = URL.createObjectURL(zipBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'split-pages.zip';
-    link.click();
+  <p>
+    Yes. PDF Split tools allow you to separate individual pages or multiple
+    selected pages depending on the available features.
+  </p>
 
-    URL.revokeObjectURL(url);
-  };
+  <h3 className="text-xl font-semibold text-foreground">
+    Are my PDF files secure?
+  </h3>
 
-  return (
-    <ToolLayout
-      title="PDF Split Tool"
-      description="Split large PDF files into individual pages and download them as a ZIP archive easily."
-      icon={Scissors}
-    >
-      <div className="space-y-10">
+  <p>
+    Yes. Your documents are processed with privacy in mind and are not
+    permanently stored after processing.
+  </p>
 
-        {/* 🔥 SEO CONTENT SECTION */}
-        <section className="mt-10 space-y-6 border-t pt-10 text-muted-foreground leading-7">
-
-          <h2 className="text-3xl font-bold text-foreground">
-            About PDF Split Tool
-          </h2>
-
-          <p>
-            The PDF Split tool allows you to break large PDF files into separate pages.
-            Each page is saved as an individual PDF inside a ZIP file for easy download and sharing.
-          </p>
-
-          <h2 className="text-2xl font-bold text-foreground">
-            How to Use This Tool
-          </h2>
-
-          <ol className="list-decimal pl-6 space-y-2">
-            <li>Upload your PDF file.</li>
-            <li>Click on Extract All Pages.</li>
-            <li>Wait while pages are processed.</li>
-            <li>Download ZIP file containing all pages.</li>
-          </ol>
-
-          <h2 className="text-2xl font-bold text-foreground">
-            Benefits
-          </h2>
-
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Split large PDFs easily</li>
-            <li>Download pages separately</li>
-            <li>Works fully in browser</li>
-            <li>No file upload to server</li>
-            <li>Fast processing</li>
-          </ul>
-
-          <h2 className="text-2xl font-bold text-foreground">
-            FAQ
-          </h2>
-
-          <h3 className="text-xl font-semibold">Is this tool free?</h3>
-          <p>Yes, it is completely free.</p>
-
-          <h3 className="text-xl font-semibold">Are files uploaded?</h3>
-          <p>No, everything runs locally in your browser.</p>
-
-        </section>
-
-        {/* TOOL UI */}
-        {!isDone ? (
-          <div className="space-y-6">
-
-            <FileDropzone
-              onFilesSelected={handleFileSelect}
-              multiple={false}
-              accept="application/pdf"
-              label="Upload PDF file"
-            />
-
-            {file && (
-              <Button
-                onClick={processDecompose}
-                disabled={isProcessing}
-                className="w-full h-12"
-              >
-                {isProcessing ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Splitting...
-                  </>
-                ) : (
-                  <>
-                    <FileText className="mr-2 h-5 w-5" />
-                    Extract Pages
-                  </>
-                )}
-              </Button>
-            )}
-
-          </div>
-        ) : (
-          <div className="space-y-8">
-
-            <div className="text-center p-10 border rounded-2xl">
-
-              <Package className="mx-auto mb-4" size={40} />
-
-              <h2 className="text-2xl font-bold">
-                Split Complete
-              </h2>
-
-              <p className="text-muted-foreground mt-2">
-                {pageCount} pages extracted successfully
-              </p>
-
-              <div className="grid grid-cols-2 gap-4 mt-6">
-
-                <Button onClick={handleDownload}>
-                  Download ZIP
-                </Button>
-
-                <Button variant="outline">
-                  Share
-                </Button>
-
-              </div>
-
-            </div>
-
-            <div className="text-center">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  setIsDone(false);
-                  setFile(null);
-                  setZipBlob(null);
-                }}
-              >
-                <RefreshCw className="mr-2 h-4 w-4" />
-                Split Another PDF
-              </Button>
-            </div>
-
-          </div>
-        )}
-
-      </div>
-    </ToolLayout>
-  );
-}
+</section>
