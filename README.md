@@ -11,3 +11,4 @@ A professional, AI-powered suite for document and image processing.
 - **PDF Decomposition**: Extract pages from PDF documents into a ZIP archive.
 
 Built with Next.js, Genkit, and Firebase.
+Last updated
