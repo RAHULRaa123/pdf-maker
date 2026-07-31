@@ -1,58 +1,32 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
 
+  const baseUrl = "https://pdf-maker-virid.vercel.app";
+
   return [
     {
-      url: "https://pdf-maker-virid.vercel.app",
+      url: baseUrl,
       lastModified: new Date(),
     },
     {
-      url: "https://pdf-maker-virid.vercel.app/about",
+      url: `${baseUrl}/about`,
       lastModified: new Date(),
     },
     {
-      url: "https://pdf-maker-virid.vercel.app/blog",
+      url: `${baseUrl}/blog`,
       lastModified: new Date(),
     },
     {
-      url: "https://pdf-maker-virid.vercel.app/contact",
+      url: `${baseUrl}/contact`,
       lastModified: new Date(),
     },
     {
-      url: "https://pdf-maker-virid.vercel.app/privacy",
+      url: `${baseUrl}/privacy`,
       lastModified: new Date(),
     },
     {
-      url: "https://pdf-maker-virid.vercel.app/terms",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://pdf-maker-virid.vercel.app/tools",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://pdf-maker-virid.vercel.app/tools/merge-pdf",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://pdf-maker-virid.vercel.app/tools/image-to-pdf",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://pdf-maker-virid.vercel.app/tools/compress",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://pdf-maker-virid.vercel.app/tools/watermark",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://pdf-maker-virid.vercel.app/tools/protect",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://pdf-maker-virid.vercel.app/tools/split-pdf",
+      url: `${baseUrl}/terms`,
       lastModified: new Date(),
     },
   ];
