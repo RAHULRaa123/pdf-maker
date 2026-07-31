@@ -2,42 +2,41 @@
 <section className="mt-10 space-y-8 border-t pt-10 text-muted-foreground leading-8">
 
   <h2 className="text-3xl font-bold text-foreground">
-    Complete Guide to PDF Merger
+    Complete Guide to PDF Split Tool
   </h2>
 
   <p>
-    PDF Merger is a free online tool that helps users combine multiple PDF
-    documents into one organized PDF file. Whether you need to merge reports,
-    assignments, invoices, certificates, contracts, scanned documents or
-    presentations, this tool makes the process simple and fast without
+    PDF Split Tool is a free online utility that helps you split a PDF document
+    into separate pages quickly and securely. Whether you want to extract one
+    page or every page from a PDF, this tool makes the process simple without
     installing any software.
   </p>
 
   <p>
-    Many students, teachers, office employees, business owners and freelancers
-    work with multiple PDF documents every day. Instead of sharing several
-    separate files, you can combine everything into one professional PDF that
-    is easier to upload, print, archive and share.
+    Students, teachers, office employees, lawyers, accountants and business
+    professionals often receive large PDF files that contain many pages. Instead
+    of sharing the complete document, you can extract only the required pages
+    and save them as separate PDF files.
   </p>
 
   <h2 className="text-2xl font-bold text-foreground">
-    Why Use a PDF Merger?
+    Why Use a PDF Split Tool?
   </h2>
 
   <p>
-    Merging PDF files saves time and improves document organization. It reduces
-    the number of files you need to manage and creates a single document that
-    is accepted by universities, employers, government portals and businesses.
+    Splitting PDF files makes documents easier to organize, share and manage.
+    It reduces file size, improves workflow and allows you to send only the
+    pages that are actually needed.
   </p>
 
   <ul className="list-disc pl-6 space-y-2">
-    <li>Combine multiple PDF files into one document</li>
-    <li>Maintain original page quality</li>
+    <li>Extract individual pages from any PDF</li>
+    <li>Create separate PDF files automatically</li>
     <li>Fast browser-based processing</li>
-    <li>No registration required</li>
-    <li>No software installation</li>
+    <li>No software installation required</li>
+    <li>No registration needed</li>
     <li>Compatible with Windows, macOS, Android and iPhone</li>
-    <li>Simple interface for beginners</li>
+    <li>Easy interface for beginners</li>
   </ul>
 
   <h2 className="text-2xl font-bold text-foreground">
@@ -45,10 +44,11 @@
   </h2>
 
   <p>
-    Students combine assignments and notes. Teachers prepare learning
-    materials. HR departments merge employee documents. Businesses organize
-    invoices and contracts. Government applicants combine certificates before
-    uploading them to official portals.
+    Students extract assignment pages before submitting coursework. Teachers
+    prepare classroom materials. Businesses separate invoices and contracts.
+    Government applicants upload only the required pages of certificates.
+    Accountants and legal professionals organize lengthy PDF documents into
+    smaller files.
   </p>
 
   <h2 className="text-2xl font-bold text-foreground">
@@ -56,9 +56,9 @@
   </h2>
 
   <p>
-    Your PDF files are processed directly inside your browser whenever
-    possible. This helps keep your personal documents private while providing
-    fast performance without unnecessary uploads.
+    Your PDF files are processed directly in your browser whenever possible.
+    Your documents remain private because files are not permanently stored
+    after processing.
   </p>
 
   <h2 className="text-2xl font-bold text-foreground">
@@ -66,29 +66,29 @@
   </h2>
 
   <h3 className="text-xl font-semibold text-foreground">
-    Is PDF Merger free?
+    Is this PDF Split Tool free?
   </h3>
 
   <p>
-    Yes. You can merge PDF files without paying any fee.
+    Yes. You can split PDF files completely free of charge.
   </p>
 
   <h3 className="text-xl font-semibold text-foreground">
-    Can I merge many PDF files?
+    Can I extract only one page?
   </h3>
 
   <p>
-    Yes. You can combine multiple PDF files depending on your device and
-    browser capabilities.
+    Yes. You can separate a single page or every page from your PDF depending
+    on your needs.
   </p>
 
   <h3 className="text-xl font-semibold text-foreground">
-    Will my files remain secure?
+    Are my PDF files secure?
   </h3>
 
   <p>
-    Your documents are processed with privacy in mind and are not permanently
-    stored by the tool.
+    Yes. Your documents are processed locally whenever possible and are not
+    permanently stored after processing.
   </p>
 
 </section>
