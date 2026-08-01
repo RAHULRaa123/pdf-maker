@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/privacy",
     "/terms",
-    "/tools",
+    
     "/tools/image-to-pdf",
     "/tools/merge-pdf",
     "/tools/decompose",
